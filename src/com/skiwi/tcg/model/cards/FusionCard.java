@@ -5,7 +5,7 @@ package com.skiwi.tcg.model.cards;
  *
  * @author Frank van Heeswijk
  */
-public class FusionCard {
+public class FusionCard implements Card {
     private final String name;
     private final int fusionPower;
     private final int fusionStat;
@@ -16,6 +16,7 @@ public class FusionCard {
         this.fusionStat = fusionStat;
     }
 
+    @Override
     public String getName() {
         return name;
     }
