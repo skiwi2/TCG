@@ -60,4 +60,9 @@ public final class FusionCard implements Card {
         }
         return true;
     }
+    
+    @Override
+    public String toString() {
+        return "FusionCard(" + name + ", " + fusionPower + ", " + fusionStat + ")";
+    }
 }

@@ -83,9 +83,14 @@ public final class MonsterCard implements Card {
         if (this.attack != other.attack) {
             return false;
         }
-        if (this.attack != other.maximumHitpoints) {
+        if (this.maximumHitpoints != other.maximumHitpoints) {
             return false;
         }
         return true;
+    }
+    
+    @Override
+    public String toString() {
+        return "MonsterCard(" + name + ", " + attack + ", " + maximumHitpoints + "," + hitpoints + "," + modus + ")" ;
     }
 }

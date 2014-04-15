@@ -27,7 +27,7 @@ public class Hand {
 
     public void add(final Card card) {
         Objects.requireNonNull(card);
-        ExceptionUtils.throwOnSuccess(this::isFull, IllegalArgumentException::new, "hand is full");
+        ExceptionUtils.throwOnSuccess(this::isFull, IllegalStateException::new, "hand is full");
         list.add(card);
     }
     
@@ -39,10 +39,15 @@ public class Hand {
     public void swap(final int indexOne, final int indexTwo) {
         assertIndex(indexOne);
         assertIndex(indexTwo);
-        Collections.swap(list, indexTwo, indexTwo);
+        Collections.swap(list, indexOne, indexTwo);
     }
     
     private void assertIndex(final int index) {
         ExceptionUtils.throwOnFail(index >= 0 && index < list.size(), IndexOutOfBoundsException::new);
+    }
+    
+    @Override
+    public String toString() {
+        return "Hand(" + capacity + ", " + list + ")";
     }
 }
