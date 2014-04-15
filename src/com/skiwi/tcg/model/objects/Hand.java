@@ -17,6 +17,7 @@ public class Hand {
     private final int capacity;
 
     public Hand(final int capacity) {
+        ExceptionUtils.throwOnFail(capacity > 0, IllegalArgumentException::new, "capacity should be strictly positive");
         this.capacity = capacity;
     }
 
@@ -26,7 +27,7 @@ public class Hand {
 
     public void add(final Card card) {
         Objects.requireNonNull(card);
-        ExceptionUtils.throwOnFail(this::isFull, IllegalArgumentException::new, "hand is full");
+        ExceptionUtils.throwOnSuccess(this::isFull, IllegalArgumentException::new, "hand is full");
         list.add(card);
     }
     

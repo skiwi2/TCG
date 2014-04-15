@@ -39,4 +39,29 @@ public final class ExceptionUtils {
             throw exceptionFunction.apply(message);
         }
     }
+    
+    public static <E extends RuntimeException> void throwOnSuccess(final BooleanSupplier resultSupplier, final Supplier<E> exceptionSupplier) throws E {
+        Objects.requireNonNull(resultSupplier);
+        throwOnSuccess(resultSupplier.getAsBoolean(), exceptionSupplier);
+    }
+    
+    public static <E extends RuntimeException> void throwOnSuccess(final boolean result, final Supplier<E> exceptionSupplier) throws E {
+        Objects.requireNonNull(exceptionSupplier);
+        if (result) {
+            throw exceptionSupplier.get();
+        }
+    }
+    
+    public static <E extends RuntimeException> void throwOnSuccess(final BooleanSupplier resultSupplier, final Function<String, E> exceptionFunction, final String message) throws E {
+        Objects.requireNonNull(resultSupplier);
+        throwOnSuccess(resultSupplier.getAsBoolean(), exceptionFunction, message);
+    }
+    
+    public static <E extends RuntimeException> void throwOnSuccess(final boolean result, final Function<String, E> exceptionFunction, final String message) throws E {
+        Objects.requireNonNull(exceptionFunction);
+        Objects.requireNonNull(message);
+        if (result) {
+            throw exceptionFunction.apply(message);
+        }
+    }
 }
