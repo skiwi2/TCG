@@ -1,6 +1,7 @@
 
 package com.skiwi.tcg.utils;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -69,5 +70,14 @@ public final class Checker {
     public static void checkIndex(final boolean shouldBeTrue, final String errorMessage) throws IndexOutOfBoundsException {
         Objects.requireNonNull(errorMessage);
         throwOnFail(shouldBeTrue, IndexOutOfBoundsException::new, errorMessage);
+    }
+    
+    public static void checkElement(final boolean shouldBeTrue) throws IndexOutOfBoundsException {
+        throwOnFail(shouldBeTrue, NoSuchElementException::new);
+    }
+    
+    public static void checkElement(final boolean shouldBeTrue, final String errorMessage) throws IndexOutOfBoundsException {
+        Objects.requireNonNull(errorMessage);
+        throwOnFail(shouldBeTrue, NoSuchElementException::new, errorMessage);
     }
 }

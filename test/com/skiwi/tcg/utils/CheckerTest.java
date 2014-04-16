@@ -1,6 +1,7 @@
 
 package com.skiwi.tcg.utils;
 
+import java.util.NoSuchElementException;
 import static org.junit.Assert.*;
 import org.junit.Rule;
 import org.junit.Test;
@@ -171,6 +172,33 @@ public class CheckerTest {
     @Test(expected = NullPointerException.class)
     public void testCheckIndex_boolean_StringNPE() {
         Checker.checkIndex(true, null);
+    }
+
+    @Test
+    public void testCheckElement_boolean1() {
+        Checker.checkElement(true);
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testCheckElement_boolean2() {
+        Checker.checkElement(false);
+    }
+
+    @Test
+    public void testCheckElement_boolean_String1() {
+        Checker.checkElement(true, "custom");
+    }
+
+    @Test
+    public void testCheckElement_boolean_String2() {
+        exception.expect(NoSuchElementException.class);
+        exception.expectMessage("custom");
+        Checker.checkElement(false, "custom");
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testCheckElement_boolean_StringNPE() {
+        Checker.checkElement(true, null);
     }
     
     private static class CustomException extends RuntimeException {
