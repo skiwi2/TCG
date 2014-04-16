@@ -2,42 +2,78 @@
 package com.skiwi.tcg.model.objects;
 
 import com.skiwi.tcg.model.cards.Card;
+import com.skiwi.tcg.utils.Checker;
+import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Queue;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 /**
  *
  * @author Frank van Heeswijk
  */
-public class Deck {
-    private final Queue<Card> queue = new LinkedList<>();
+public class Deck extends AbstractCollection<Card> implements Collection<Card> {
+    private final LinkedList<Card> linkedList = new LinkedList<>();
     
     public Deck() { }
     
-    public Deck(final Collection<Card> cards) {
+    public Deck(final Collection<? extends Card> cards) {
         Objects.requireNonNull(cards);
-        queue.addAll(cards);
+        addAll(cards);
     }
     
-    public void add(final Card card) {
+    @Override
+    public boolean add(final Card card) {
         Objects.requireNonNull(card);
-        queue.add(card);
-    }
-    
-    public void addAll(final Collection<Card> cards) {
-        Objects.requireNonNull(cards);
-        queue.addAll(cards);
+        linkedList.addFirst(card);
+        return true;
     }
     
     public void shuffle() {
-        Collections.shuffle((List<Card>)queue);
+        Collections.shuffle(linkedList);
+    }
+    
+    public Card get(int index) {
+        checkIndex(index);
+        return linkedList.get(index);
     }
     
     public Card take() {
-        return queue.remove();
+        Checker.checkElement(!isEmpty(), "deck should not be empty");
+        return linkedList.removeFirst();
+    }
+    
+    @Override
+    public String toString() {
+        return "Deck(" + size() + ")";
+    }
+    
+    @Override
+    public Iterator<Card> iterator() {
+        return linkedList.iterator();
+    }
+    
+    @Override
+    public Spliterator<Card> spliterator() {
+        return linkedList.spliterator();
+    }
+    
+    @Override
+    public int size() {
+        return linkedList.size();
+    }
+    
+    @Override
+    public void forEach(final Consumer<? super Card> action) {
+        Objects.requireNonNull(action);
+        linkedList.forEach(action);
+    }
+    
+    private void checkIndex(final int index) {
+        Checker.checkIndex(index >= 0 && index < linkedList.size(), "index should be between 0 and " + linkedList.size());
     }
 }
