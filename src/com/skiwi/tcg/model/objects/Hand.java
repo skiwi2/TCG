@@ -50,11 +50,7 @@ public class Hand implements Iterable<Card> {
         checkIndex(indexTwo);
         Collections.swap(list, indexOne, indexTwo);
     }
-
-    private void checkIndex(final int index) {
-        Checker.checkIndex(index >= 0 && index < list.size(), "index should be between 0 and " + list.size());
-    }
-
+    
     @Override
     public String toString() {
         return "Hand(" + capacity + ", " + list + ")";
@@ -82,5 +78,9 @@ public class Hand implements Iterable<Card> {
     
     public Stream<Card> parallelStream() {
         return list.parallelStream();
+    }
+    
+    private void checkIndex(final int index) {
+        Checker.checkIndex(index >= 0 && index < list.size(), "index should be between 0 and " + list.size());
     }
 }
