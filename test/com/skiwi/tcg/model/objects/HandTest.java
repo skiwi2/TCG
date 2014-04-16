@@ -41,7 +41,7 @@ public class HandTest {
     @Test
     public void testAdd() {
         Hand hand = new Hand(1);
-        hand.add(createCard());
+        assertTrue(hand.add(createCard()));
     }
 
     @Test(expected = NullPointerException.class)
