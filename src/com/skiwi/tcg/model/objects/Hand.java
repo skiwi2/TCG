@@ -81,6 +81,6 @@ public class Hand extends AbstractCollection<Card> implements Collection<Card> {
     }
     
     private void checkIndex(final int index) {
-        Checker.checkIndex(index >= 0 && index < list.size(), "index should be between 0 and " + list.size());
+        Checker.checkIndex(index >= 0 && index < size(), "index should be between 0 and " + size());
     }
 }
