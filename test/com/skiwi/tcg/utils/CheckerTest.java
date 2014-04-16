@@ -9,7 +9,7 @@ import org.junit.rules.ExpectedException;
 
 /**
  *
- * @author Beheerder
+ * @author Frank van Heeswijk
  */
 public class CheckerTest {
     static {
