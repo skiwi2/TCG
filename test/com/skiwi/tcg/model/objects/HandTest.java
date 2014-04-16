@@ -173,23 +173,23 @@ public class HandTest {
     }
     
     @Test
-    public void testForEach() {
-        createFilledHand().forEach(Assert::assertNotNull);
-    }
-    
-    @Test
     public void testSpliterator() {
         assertNotNull(createFilledHand().spliterator());
     }
     
     @Test
-    public void testStream() {
-        createFilledHand().stream().forEach(Assert::assertNotNull);
+    public void testSize() {
+        Hand hand = new Hand(2);
+        assertEquals("empty hand", 0, hand.size());
+        hand.add(createCard());
+        assertEquals("one card", 1, hand.size());
+        hand.add(createCard2());
+        assertEquals("two cards", 2, hand.size());
     }
     
     @Test
-    public void testParallelStream() {
-        createFilledHand().parallelStream().forEach(Assert::assertNotNull);
+    public void testForEach() {
+        createFilledHand().forEach(Assert::assertNotNull);
     }
 
     private Card createCard() {
