@@ -102,16 +102,37 @@ public class DeckTest {
         Deck deck = new Deck();
         Card card = createCard();
         Card card2 = createCard2();
+        assertNotSame("card should be unequal to card2", card, card2);
         deck.add(card);
         deck.add(card2);
         assertEquals("top card should be card2", card2, deck.take());
         assertEquals("top card should now be card", card, deck.take());
+        assertTrue(deck.isEmpty());
     }
     
     @Test(expected = NoSuchElementException.class)
     public void testTakeNSE() {
         Deck deck = new Deck();
         deck.take();
+    }
+    
+    @Test
+    public void testTake_integer() {
+        Deck deck = new Deck();
+        Card card = createCard();
+        Card card2 = createCard2();
+        assertNotSame("card should be unequal to card2", card, card2);
+        deck.add(card);
+        deck.add(card2);
+        assertEquals("second card should be card", card, deck.take(1));
+        assertEquals("first card should be card2", card2, deck.take(0));
+        assertTrue(deck.isEmpty());
+    }
+    
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testTake_integerIOOBE() {
+        Deck deck = new Deck();
+        deck.take(0);
     }
     
     @Test

@@ -47,6 +47,11 @@ public class Deck extends AbstractCollection<Card> implements Collection<Card> {
         return linkedList.removeFirst();
     }
     
+    public Card take(final int index) {
+        checkIndex(index);
+        return linkedList.remove(index);
+    }
+    
     @Override
     public String toString() {
         return "Deck(" + size() + ")";
