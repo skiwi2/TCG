@@ -11,29 +11,29 @@ import org.junit.Test;
  * @author Frank van Heeswijk
  */
 public class HandTest {
-    {
-        assertEquals(true, true);
+    static {
+        assertTrue(true);
     }
 
     @Test
     public void testConstructor() {
-        Hand hand = new Hand(1);
+        new Hand(1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorIAE() {
-        Hand hand = new Hand(0);
+        new Hand(0);
     }
 
     @Test
     public void testIsFull() {
         Hand hand = new Hand(2);
         hand.add(createCard());
-        assertEquals("hand should not be full", false, hand.isFull());
+        assertFalse("hand should not be full", hand.isFull());
         hand.add(createCard());
-        assertEquals("hand should be full", true, hand.isFull());
+        assertTrue("hand should be full", hand.isFull());
         hand.play(1);
-        assertEquals("hand should not be full anymore", false, hand.isFull());
+        assertFalse("hand should not be full anymore", hand.isFull());
     }
 
     @Test
@@ -89,6 +89,7 @@ public class HandTest {
         Card card2 = createCard2();
         hand.add(card);
         hand.add(card2);
+        assertNotSame("card should be unequal to card2", card, card2);
         hand.swap(0, 1);
         assertEquals("card should be equal", card, hand.play(1));
         assertEquals("card2 should be equal", card2, hand.play(0));
@@ -133,6 +134,7 @@ public class HandTest {
         Hand hand = new Hand(2);
         Card card = createCard();
         Card card2 = createCard2();
+        assertNotSame("card should be unequal to card2", card, card2);
         hand.add(card);
         hand.add(card2);
         assertEquals("Hand(2, [" + card + ", " + card2 + "])", hand.toString());

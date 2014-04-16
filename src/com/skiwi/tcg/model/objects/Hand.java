@@ -2,7 +2,7 @@
 package com.skiwi.tcg.model.objects;
 
 import com.skiwi.tcg.model.cards.Card;
-import com.skiwi.tcg.utils.ExceptionUtils;
+import com.skiwi.tcg.utils.Checker;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Hand {
     private final int capacity;
 
     public Hand(final int capacity) {
-        ExceptionUtils.throwOnFail(capacity > 0, IllegalArgumentException::new, "capacity should be strictly positive");
+        Checker.checkArgument(capacity > 0, "capacity should be strictly positive");
         this.capacity = capacity;
     }
 
@@ -27,25 +27,25 @@ public class Hand {
 
     public void add(final Card card) {
         Objects.requireNonNull(card);
-        ExceptionUtils.throwOnSuccess(this::isFull, IllegalStateException::new, "hand is full");
+        Checker.checkState(!isFull(), "hand is full");
         list.add(card);
     }
-    
+
     public Card play(final int index) {
-        assertIndex(index);
+        checkIndex(index);
         return list.remove(index);
     }
-    
+
     public void swap(final int indexOne, final int indexTwo) {
-        assertIndex(indexOne);
-        assertIndex(indexTwo);
+        checkIndex(indexOne);
+        checkIndex(indexTwo);
         Collections.swap(list, indexOne, indexTwo);
     }
-    
-    private void assertIndex(final int index) {
-        ExceptionUtils.throwOnFail(index >= 0 && index < list.size(), IndexOutOfBoundsException::new);
+
+    private void checkIndex(final int index) {
+        Checker.checkIndex(index >= 0 && index < list.size(), "index should be between 0 and " + list.size());
     }
-    
+
     @Override
     public String toString() {
         return "Hand(" + capacity + ", " + list + ")";
