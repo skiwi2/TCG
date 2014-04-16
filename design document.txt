@@ -1,0 +1,56 @@
+Cards:
+- Monster cards
+ -- Name (Mandatory consists of two parts, to assist fusing)
+ -- ATK
+ -- HP
+- Fusion cards
+ -- Fusion power (5%, 10%, etc.)
+ -- Fusion stat (ATK, HP)
+
+Available cards:
+ - Fusion Card (5%, ATK)
+ - Fusion Card (10%, ATK)
+ - Fusion Card (20%, ATK)
+ - Fusion Card (5%, HP)
+ - Fusion Card (10%, HP)
+ - Fusion Card (20%, HP)
+
+ 
+Deck consists of 50 cards
+
+Card modes:
+- Offensive (straight forward)
+ -- Normal mode
+- Healing (90 degrees turned)
+ -- Heals monster for ATK points on HP
+
+There is a graveyeard for discarded cards
+
+You can have a maximum of 7 cards in hand
+
+There can be a maximum of 5 monsters on the field
+
+A player has a certain amount of HP, if 0, player is dead
+
+Phases in a turn:
+- Draw a card, if full, discard
+- Select monster cards on field to fuse, fused cards cannot be used this turn
+- Per card
+ -- Change card mode
+ -- If in offensive mode, option to attack enemy
+- Option to add a maximum of 1 monster to the field
+
+Combat formula:
+- DEF_HP = DEF_HP - ATK_ATK
+
+Fusion:
+- Pick base card
+- Pick fuser that gets consumed and sent to the graveyard
+- Add fused amount to the base card
+- Change last part of the name of the base card to the one of the fuser
+
+- should stronger cards have penalties?
+
+randomly generate cards? (for all players equal)
+- base 1 ATK, 1 hp
+- 33% chance to be +1 on a single stat
