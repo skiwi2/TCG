@@ -8,6 +8,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  *
@@ -31,7 +34,7 @@ public class Hand implements Iterable<Card> {
         Checker.checkState(!isFull(), "hand is full");
         list.add(card);
     }
-    
+
     public Card get(final int index) {
         checkIndex(index);
         return list.get(index);
@@ -60,5 +63,24 @@ public class Hand implements Iterable<Card> {
     @Override
     public Iterator<Card> iterator() {
         return list.iterator();
+    }
+    
+    @Override
+    public void forEach(final Consumer<? super Card> action) {
+        Objects.requireNonNull(action);
+        list.forEach(action);
+    }
+    
+    @Override
+    public Spliterator<Card> spliterator() {
+        return list.spliterator();
+    }
+    
+    public Stream<Card> stream() {
+        return list.stream();
+    }
+    
+    public Stream<Card> parallelStream() {
+        return list.parallelStream();
     }
 }

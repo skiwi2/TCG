@@ -4,6 +4,7 @@ package com.skiwi.tcg.model.objects;
 import com.skiwi.tcg.model.cards.Card;
 import com.skiwi.tcg.model.cards.MonsterCard;
 import java.util.Iterator;
+import org.junit.Assert;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -162,12 +163,33 @@ public class HandTest {
         Card card2 = createCard2();
         hand.add(card);
         hand.add(card2);
+        assertNotSame("card should be unequal to card2", card, card2);
         Iterator<Card> iterator = hand.iterator();
         assertTrue(iterator.hasNext());
         assertEquals("first element should equal card", card, iterator.next());
         assertTrue(iterator.hasNext());
         assertEquals("second element should equal card2", card2, iterator.next());
         assertFalse(iterator.hasNext());
+    }
+    
+    @Test
+    public void testForEach() {
+        createFilledHand().forEach(Assert::assertNotNull);
+    }
+    
+    @Test
+    public void testSpliterator() {
+        assertNotNull(createFilledHand().spliterator());
+    }
+    
+    @Test
+    public void testStream() {
+        createFilledHand().stream().forEach(Assert::assertNotNull);
+    }
+    
+    @Test
+    public void testParallelStream() {
+        createFilledHand().parallelStream().forEach(Assert::assertNotNull);
     }
 
     private Card createCard() {
@@ -176,5 +198,15 @@ public class HandTest {
 
     private Card createCard2() {
         return new MonsterCard("Test2", 15, 150, MonsterModus.HEALING);
+    }
+    
+    private Hand createFilledHand() {
+        Hand hand = new Hand(2);
+        Card card = createCard();
+        Card card2 = createCard2();
+        assertNotSame("card should be unequal to card2", card, card2);
+        hand.add(card);
+        hand.add(card2);
+        return hand;
     }
 }
