@@ -5,6 +5,7 @@ import com.skiwi.tcg.model.cards.Card;
 import com.skiwi.tcg.utils.Checker;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ import java.util.Objects;
  *
  * @author Frank van Heeswijk
  */
-public class Hand {
+public class Hand implements Iterable<Card> {
     private final List<Card> list = new ArrayList<>();
     private final int capacity;
 
@@ -29,6 +30,11 @@ public class Hand {
         Objects.requireNonNull(card);
         Checker.checkState(!isFull(), "hand is full");
         list.add(card);
+    }
+    
+    public Card get(final int index) {
+        checkIndex(index);
+        return list.get(index);
     }
 
     public Card play(final int index) {
@@ -49,5 +55,10 @@ public class Hand {
     @Override
     public String toString() {
         return "Hand(" + capacity + ", " + list + ")";
+    }
+
+    @Override
+    public Iterator<Card> iterator() {
+        return list.iterator();
     }
 }
