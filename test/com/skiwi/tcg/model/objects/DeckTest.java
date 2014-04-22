@@ -13,7 +13,7 @@ import org.junit.Test;
  *
  * @author Frank van Heeswijk
  */
-public class DeckTest {
+public class DeckTest extends PileTest {
     static {
         assertTrue(true);
     }

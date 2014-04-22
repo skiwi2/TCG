@@ -2,7 +2,7 @@
 package com.skiwi.tcg.model.cards;
 
 import com.skiwi.tcg.model.objects.MonsterModus;
-import com.skiwi.tcg.utils.Checker;
+import com.skiwi.tcg.utils.Arguments;
 import java.util.Objects;
 
 /**
@@ -17,22 +17,23 @@ public final class MonsterCard implements Card {
     private MonsterModus modus;
     
     public MonsterCard(final String name, final int attack, final int hitpoints, final MonsterModus modus) {
-        this.name = name;
-        this.attack = attack;
+        Arguments.requirePositive(hitpoints, "hitpoints");
+        this.name = Objects.requireNonNull(name);
+        this.attack = Arguments.requirePositiveOrZero(attack, "attack");
         this.maximumHitpoints = hitpoints;
         this.hitpoints = hitpoints;
         this.modus = Objects.requireNonNull(modus);
     }
     
     public int increaseHitpoints(final int increment) {
-        Checker.checkArgument(increment >= 0, "increment cannot be negative");
+        Arguments.requirePositiveOrZero(increment, "increment");
         int oldHitpoints = hitpoints;
         hitpoints = (hitpoints + increment >= maximumHitpoints) ? maximumHitpoints : hitpoints + increment;
         return hitpoints - oldHitpoints;
     }
     
     public int decreaseHitpoints(final int decrement) {
-        Checker.checkArgument(decrement <= 0, "decrement cannot be positive");
+        Arguments.requirePositiveOrZero(decrement, "decrement");
         int oldHitpoints = hitpoints;
         hitpoints = (hitpoints - decrement <= 0) ? 0 : hitpoints - decrement;
         return hitpoints - oldHitpoints;

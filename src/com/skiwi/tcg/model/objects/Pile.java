@@ -2,7 +2,7 @@
 package com.skiwi.tcg.model.objects;
 
 import com.skiwi.tcg.model.cards.Card;
-import com.skiwi.tcg.utils.Checker;
+import com.skiwi.tcg.utils.Arguments;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Collections;
@@ -69,6 +69,6 @@ public abstract class Pile extends AbstractCollection<Card> implements Collectio
     }
     
     private void checkIndex(final int index) {
-        Checker.checkIndex(index >= 0 && index < linkedList.size(), "index should be between 0 and " + linkedList.size());
+        Arguments.requireIndexInRange(index, 0, size());
     }
 }

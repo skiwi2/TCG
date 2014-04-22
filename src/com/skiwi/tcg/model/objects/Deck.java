@@ -2,7 +2,7 @@
 package com.skiwi.tcg.model.objects;
 
 import com.skiwi.tcg.model.cards.Card;
-import com.skiwi.tcg.utils.Checker;
+import com.skiwi.tcg.utils.States;
 import java.util.Collection;
 
 /**
@@ -19,7 +19,7 @@ public class Deck extends Pile {
     }
     
     public Card take() {
-        Checker.checkElement(!isEmpty(), "deck should not be empty");
+        States.requireNonEmpty(this, "deck");
         return take(0);
     }
     

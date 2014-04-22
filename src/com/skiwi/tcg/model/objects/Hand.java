@@ -2,7 +2,8 @@
 package com.skiwi.tcg.model.objects;
 
 import com.skiwi.tcg.model.cards.Card;
-import com.skiwi.tcg.utils.Checker;
+import com.skiwi.tcg.utils.Arguments;
+import com.skiwi.tcg.utils.States;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +23,7 @@ public class Hand extends AbstractCollection<Card> implements Collection<Card> {
     private final int capacity;
 
     public Hand(final int capacity) {
-        Checker.checkArgument(capacity > 0, "capacity should be strictly positive");
-        this.capacity = capacity;
+        this.capacity = Arguments.requirePositive(capacity, "capacity");
     }
 
     public boolean isFull() {
@@ -33,7 +33,7 @@ public class Hand extends AbstractCollection<Card> implements Collection<Card> {
     @Override
     public boolean add(final Card card) {
         Objects.requireNonNull(card);
-        Checker.checkState(!isFull(), "hand is full");
+        States.requireFalse(isFull(), "hand is full");
         list.add(card);
         return true;
     }
@@ -81,6 +81,6 @@ public class Hand extends AbstractCollection<Card> implements Collection<Card> {
     }
     
     private void checkIndex(final int index) {
-        Checker.checkIndex(index >= 0 && index < size(), "index should be between 0 and " + size());
+        Arguments.requireIndexInRange(index, 0, size());
     }
 }
