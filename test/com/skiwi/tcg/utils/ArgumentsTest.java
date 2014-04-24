@@ -364,4 +364,61 @@ public class ArgumentsTest {
     public void testRequireIndexInRangeClosedIOOBE3() {
         Arguments.requireIndexInRangeClosed(1, 20, 40);
     }
+    
+    /** Arguments.requireMinimalLength **/
+    
+    @Test
+    public void testRequireMinimalLength_3args() {
+        assertEquals("test", Arguments.requireMinimalLength("test", 4));
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testRequireMinimalLength_3argsNPE() {
+        Arguments.requireMinimalLength(null, 4);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testRequireMinimalLength_3argsIAE1() {
+        Arguments.requireMinimalLength("test", 0);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testRequireMinimalLength_3argsIAE2() {
+        Arguments.requireMinimalLength("test", -1);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testRequireMinimalLength_3argsIAE3() {
+        Arguments.requireMinimalLength("test", 5);
+    }
+    
+    @Test
+    public void testRequireMinimalLength_4args() {
+        assertEquals("test", Arguments.requireMinimalLength("test", 4, "test"));
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testRequireMinimalLength_4argsNPE1() {
+        Arguments.requireMinimalLength(null, 4, "test");
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testRequireMinimalLength_4argsNPE2() {
+        Arguments.requireMinimalLength("test", 4, null);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testRequireMinimalLength_4argsIAE1() {
+        Arguments.requireMinimalLength("test", 0, "test");
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testRequireMinimalLength_4argsIAE2() {
+        Arguments.requireMinimalLength("test", -1, "test");
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testRequireMinimalLength_4argsIAE3() {
+        Arguments.requireMinimalLength("test", 5, "test");
+    }
 }

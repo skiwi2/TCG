@@ -70,7 +70,7 @@ public final class Arguments {
             throw new IllegalArgumentException("the lower inclusive bound is greater or equal to the higher exclusive bound: " + lowInclusive + " >= " + highExclusive);
         }
         if (value < lowInclusive || value >= highExclusive) {
-            throw new IllegalArgumentException("the " + name + " was not in range: " + value + ", expected: [" + lowInclusive + ", " + highExclusive + ")");
+            throw new IllegalArgumentException("the " + name + " must be in range: " + value + ", expected: [" + lowInclusive + ", " + highExclusive + ")");
         }
         return value;
     }
@@ -85,22 +85,36 @@ public final class Arguments {
             throw new IllegalArgumentException("the lower inclusive bound is greater or equal to the higher inclusive bound: " + lowInclusive + " >= " + highInclusive);
         }
         if (value < lowInclusive || value > highInclusive) {
-            throw new IllegalArgumentException("the " + name + " was not in range: " + value + ", expected: [" + lowInclusive + ", " + highInclusive + ")]");
+            throw new IllegalArgumentException("the " + name + " must be in range: " + value + ", expected: [" + lowInclusive + ", " + highInclusive + ")]");
         }
         return value;
     }
 
     public static int requireIndexInRange(final int index, final int lowInclusive, final int highExclusive) throws IndexOutOfBoundsException {
         if (index < lowInclusive || index >= highExclusive) {
-            throw new IndexOutOfBoundsException("the index was not in range: " + index + ", expected: [" + lowInclusive + ", " + highExclusive + ")");
+            throw new IndexOutOfBoundsException("the index must be in range: " + index + ", expected: [" + lowInclusive + ", " + highExclusive + ")");
         }
         return index;
     }
 
     public static int requireIndexInRangeClosed(final int index, final int lowInclusive, final int highInclusive) throws IndexOutOfBoundsException {
         if (index < lowInclusive || index > highInclusive) {
-            throw new IndexOutOfBoundsException("the index was not in range: " + index + ", expected: [" + lowInclusive + ", " + highInclusive + "]");
+            throw new IndexOutOfBoundsException("the index must be in range: " + index + ", expected: [" + lowInclusive + ", " + highInclusive + "]");
         }
         return index;
+    }
+    
+    public static String requireMinimalLength(final String value, final int minimum) throws IllegalArgumentException {
+        return requireMinimalLength(value, minimum, "value");
+    }
+    
+    public static String requireMinimalLength(final String value, final int minimum, final String name) throws IllegalArgumentException {
+        Objects.requireNonNull(value);
+        Arguments.requirePositive(minimum, "minimum");
+        Objects.requireNonNull(name);
+        if (value.length() < minimum) {
+            throw new IllegalArgumentException("the length of the " + name + " must be at least the minimum: " + value.length() + ", expected: " + minimum);
+        }
+        return value;
     }
 }
