@@ -145,10 +145,12 @@ public class MonsterCardTest {
     public void testHashCode() {
         MonsterCard monsterCard = new MonsterCard("Test", 5, 5, MonsterModus.HEALING);
         MonsterCard monsterCard2 = new MonsterCard("Test", 5, 5, MonsterModus.HEALING);
+        assertTrue(monsterCard.equals(monsterCard2));
         assertEquals(monsterCard.hashCode(), monsterCard2.hashCode());
         
         MonsterCard monsterCard3 = new MonsterCard("Test", 5, 5, MonsterModus.OFFENSIVE);
         monsterCard3.decreaseHitpoints(1);
+        assertTrue(monsterCard.equals(monsterCard3));
         assertEquals(monsterCard.hashCode(), monsterCard3.hashCode());
     }
 

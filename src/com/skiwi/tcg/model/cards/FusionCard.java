@@ -1,6 +1,8 @@
 
 package com.skiwi.tcg.model.cards;
 
+import com.skiwi.tcg.model.objects.MonsterStat;
+import com.skiwi.tcg.utils.Arguments;
 import java.util.Objects;
 
 /**
@@ -10,9 +12,13 @@ import java.util.Objects;
 public final class FusionCard implements Card {
     private final String name;
     private final int fusionPower;
-    private final int fusionStat;
+    private final MonsterStat fusionStat;
 
-    public FusionCard(final String name, final int fusionPower, final int fusionStat) {
+    public FusionCard(final String name, final int fusionPower, final MonsterStat fusionStat) {
+        Objects.requireNonNull(name);
+        Arguments.requireMinimalLength(name, 1, "name");
+        Arguments.requirePositive(fusionPower, "fusion power");
+        Objects.requireNonNull(fusionStat);
         this.name = name;
         this.fusionPower = fusionPower;
         this.fusionStat = fusionStat;
@@ -27,7 +33,7 @@ public final class FusionCard implements Card {
         return fusionPower;
     }
 
-    public int getFusionStat() {
+    public MonsterStat getFusionStat() {
         return fusionStat;
     }
 
@@ -36,7 +42,7 @@ public final class FusionCard implements Card {
         int hash = 7;
         hash = 59 * hash + Objects.hashCode(this.name);
         hash = 59 * hash + this.fusionPower;
-        hash = 59 * hash + this.fusionStat;
+        hash = 59 * hash + Objects.hashCode(this.fusionStat);
         return hash;
     }
 
