@@ -17,6 +17,8 @@ public final class MonsterCard implements Card {
     private MonsterModus modus;
     
     public MonsterCard(final String name, final int attack, final int hitpoints, final MonsterModus modus) {
+        Objects.requireNonNull(name);
+        Arguments.requireMinimalLength(name, 1, "name");
         Arguments.requirePositive(hitpoints, "hitpoints");
         this.name = Objects.requireNonNull(name);
         this.attack = Arguments.requirePositiveOrZero(attack, "attack");
@@ -92,6 +94,6 @@ public final class MonsterCard implements Card {
     
     @Override
     public String toString() {
-        return "MonsterCard(" + name + ", " + attack + ", " + maximumHitpoints + "," + hitpoints + "," + modus + ")" ;
+        return "MonsterCard(" + name + ", " + attack + ", " + maximumHitpoints + ", " + hitpoints + ", " + modus + ")" ;
     }
 }
