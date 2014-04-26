@@ -4,6 +4,8 @@ package com.skiwi.tcg.utils;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  *
@@ -60,5 +62,22 @@ public final class States {
             throw new NoSuchElementException(name + " must be non-empty");
         }
         return collection;
+    }
+    
+    public static <T, E extends RuntimeException> T requireNonNull(final T object, final Supplier<E> exceptionSupplier) throws E {
+        Objects.requireNonNull(exceptionSupplier);
+        if (object == null) {
+            throw exceptionSupplier.get();
+        }
+        return object;
+    }
+    
+    public static <T, E extends RuntimeException> T requireNonNull(final T object, final Function<String, E> exceptionFunction, final String message) throws E {
+        Objects.requireNonNull(exceptionFunction);
+        Objects.requireNonNull(message);
+        if (object == null) {
+            throw exceptionFunction.apply(message);
+        }
+        return object;
     }
 }

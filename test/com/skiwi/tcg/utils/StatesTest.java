@@ -119,4 +119,56 @@ public class StatesTest {
     public void testRequireNonEmpty_GenericType_StringNPE() {
         States.requireNonEmpty(Arrays.asList(2, 5), null);
     }
+    
+    @Test
+    public void testRequireNonNull_2argsNonNull() {
+        Object object = new Object();
+        assertEquals(object, States.requireNonNull(object, CustomException::new));
+    }
+    
+    @Test(expected = CustomException.class)
+    public void testRequireNonNull_2argsNull() {
+        States.requireNonNull(null, CustomException::new);
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testRequireNonNull_2argsSupplierNull() {
+        States.requireNonNull(new Object(), null);
+    }
+    
+    @Test
+    public void testRequireNonNull_3argsNonNull() {
+        Object object = new Object();
+        assertEquals(object, States.requireNonNull(object, CustomException::new, "custom message"));
+    }
+    
+    @Test
+    public void testRequireNonNull_3argsNull() {
+        try {
+            States.requireNonNull(null, CustomException::new, "custom message");
+        } catch (CustomException ex) {
+            assertEquals("custom message", ex.getMessage());
+        }
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testRequireNonNull_3argsSupplierNull() {
+        States.requireNonNull(new Object(), null, "custom message");
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testRequireNonNull_3argsMessageNull() {
+        States.requireNonNull(new Object(), CustomException::new, null);
+    }
+    
+    @SuppressWarnings("serial")
+    private static class CustomException extends RuntimeException {
+        public CustomException() {
+            super();
+        }
+        
+        public CustomException(final String message) {
+            super(message);
+        }
+    }
 }
