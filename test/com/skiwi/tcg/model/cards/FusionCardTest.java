@@ -101,6 +101,6 @@ public class FusionCardTest {
     @Test
     public void testToString() {
         FusionCard fusionCard = new FusionCard("Test", 5, MonsterStat.ATTACK);
-        assertEquals("FusionCard(Test, 5, ATTACK)", fusionCard.toString());
+        assertEquals(FusionCard.class.getSimpleName() + "(Test, 5, ATTACK)", fusionCard.toString());
     }
 }

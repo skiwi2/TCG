@@ -36,7 +36,7 @@ public class GraveyardTest extends PileTest {
     public void testToString() {
         Graveyard graveyard = new Graveyard();
         graveyard.addAll(createCollection());
-        assertEquals("Graveyard(2)", graveyard.toString());
+        assertEquals(Graveyard.class.getSimpleName() + "(2)", graveyard.toString());
     }
     
     private Card createCard() {

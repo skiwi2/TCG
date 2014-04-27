@@ -19,6 +19,6 @@ public class Graveyard extends Pile {
     
     @Override
     public String toString() {
-        return "Graveyard(" + size() + ")";
+        return Graveyard.class.getSimpleName() + "(" + size() + ")";
     }
 }

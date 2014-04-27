@@ -182,6 +182,6 @@ public class MonsterCardTest {
     public void testToString() {
         MonsterCard monsterCard = new MonsterCard("Test", 5, 5, MonsterModus.HEALING);
         monsterCard.decreaseHitpoints(2);
-        assertEquals("MonsterCard(Test, 5, 5, 3, HEALING)", monsterCard.toString());
+        assertEquals(MonsterCard.class.getSimpleName() + "(Test, 5, 5, 3, HEALING)", monsterCard.toString());
     }
 }

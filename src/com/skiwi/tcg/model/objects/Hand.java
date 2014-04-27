@@ -56,7 +56,7 @@ public class Hand extends AbstractCollection<Card> implements Collection<Card> {
     
     @Override
     public String toString() {
-        return "Hand(" + capacity + ", " + list + ")";
+        return Hand.class.getSimpleName() + "(" + capacity + ", " + list + ")";
     }
 
     @Override

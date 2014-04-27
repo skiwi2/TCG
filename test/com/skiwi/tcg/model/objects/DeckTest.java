@@ -56,7 +56,7 @@ public class DeckTest extends PileTest {
     public void testToString() {
         Deck deck = new Deck();
         deck.addAll(createCollection());
-        assertEquals("Deck(2)", deck.toString());
+        assertEquals(Deck.class.getSimpleName() + "(2)", deck.toString());
     }
     
     private Card createCard() {

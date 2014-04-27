@@ -25,6 +25,6 @@ public class Deck extends Pile {
     
     @Override
     public String toString() {
-        return "Deck(" + size() + ")";
+        return Deck.class.getSimpleName() + "(" + size() + ")";
     }
 }

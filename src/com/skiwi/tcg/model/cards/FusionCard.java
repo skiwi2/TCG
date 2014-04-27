@@ -69,6 +69,6 @@ public final class FusionCard implements Card {
     
     @Override
     public String toString() {
-        return "FusionCard(" + name + ", " + fusionPower + ", " + fusionStat + ")";
+        return FusionCard.class.getSimpleName() + "(" + name + ", " + fusionPower + ", " + fusionStat + ")";
     }
 }

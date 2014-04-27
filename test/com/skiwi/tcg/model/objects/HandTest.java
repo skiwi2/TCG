@@ -142,7 +142,7 @@ public class HandTest {
     @Test
     public void testToString1() {
         Hand hand = new Hand(1);
-        assertEquals("Hand(1, [])", hand.toString());
+        assertEquals(Hand.class.getSimpleName() + "(1, [])", hand.toString());
     }
 
     @Test
@@ -153,7 +153,7 @@ public class HandTest {
         assertNotSame("card should be unequal to card2", card, card2);
         hand.add(card);
         hand.add(card2);
-        assertEquals("Hand(2, [" + card + ", " + card2 + "])", hand.toString());
+        assertEquals(Hand.class.getSimpleName() + "(2, [" + card + ", " + card2 + "])", hand.toString());
     }
     
     @Test

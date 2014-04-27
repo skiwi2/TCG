@@ -94,6 +94,6 @@ public final class MonsterCard implements Card {
     
     @Override
     public String toString() {
-        return "MonsterCard(" + name + ", " + attack + ", " + maximumHitpoints + ", " + hitpoints + ", " + modus + ")" ;
+        return MonsterCard.class.getSimpleName() + "(" + name + ", " + attack + ", " + maximumHitpoints + ", " + hitpoints + ", " + modus + ")" ;
     }
 }
