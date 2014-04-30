@@ -54,3 +54,10 @@ Fusion:
 randomly generate cards? (for all players equal)
 - base 1 ATK, 1 hp
 - 33% chance to be +1 on a single stat
+
+Player turn:
+- 1. Draw a card
+- 2. Possibility to click on a monster to start the fusion process
+- 3. Possibility per card: Change card mode, or initiate attack
+- 4. Possibility to add a monster to the field
+- 5. End of turn
