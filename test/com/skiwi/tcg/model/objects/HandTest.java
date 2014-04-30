@@ -3,6 +3,7 @@ package com.skiwi.tcg.model.objects;
 
 import com.skiwi.tcg.model.cards.Card;
 import com.skiwi.tcg.model.cards.MonsterCard;
+import com.skiwi.tcg.view.objects.HandView;
 import java.util.Iterator;
 import org.junit.Assert;
 import static org.junit.Assert.*;
@@ -25,6 +26,38 @@ public class HandTest {
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorIAE() {
         new Hand(0);
+    }
+
+    @Test
+    public void testAddViewCallback() {
+        Hand hand = new Hand(5);
+        hand.addViewCallback(createHandView());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testAddViewCallbackViewNull() {
+        Hand hand = new Hand(5);
+        hand.addViewCallback(null);
+    }
+
+    @Test
+    public void testRemoveViewCallback() {
+        Hand hand = new Hand(5);
+        HandView handView = createHandView();
+        hand.addViewCallback(handView);
+        hand.removeViewCallback(handView);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testRemoveViewCallbackViewNull() {
+        Hand hand = new Hand(5);
+        hand.removeViewCallback(null);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testRemoveViewCallbackViewNotPresent() {
+        Hand hand = new Hand(5);
+        hand.removeViewCallback(createHandView());
     }
 
     @Test
@@ -56,7 +89,7 @@ public class HandTest {
         hand.add(createCard());
         hand.add(createCard());
     }
-    
+
     @Test
     public void testGet() {
         Hand hand = new Hand(1);
@@ -64,7 +97,7 @@ public class HandTest {
         hand.add(card);
         assertEquals("card should be equal", card, hand.get(0));
     }
-    
+
     @Test(expected = IndexOutOfBoundsException.class)
     public void testGetIOOBE() {
         Hand hand = new Hand(1);
@@ -155,7 +188,7 @@ public class HandTest {
         hand.add(card2);
         assertEquals(Hand.class.getSimpleName() + "(2, [" + card + ", " + card2 + "])", hand.toString());
     }
-    
+
     @Test
     public void testIterator() {
         Hand hand = new Hand(2);
@@ -171,12 +204,12 @@ public class HandTest {
         assertEquals("second element should equal card2", card2, iterator.next());
         assertFalse(iterator.hasNext());
     }
-    
+
     @Test
     public void testSpliterator() {
         assertNotNull(createFilledHand().spliterator());
     }
-    
+
     @Test
     public void testSize() {
         Hand hand = new Hand(2);
@@ -186,7 +219,7 @@ public class HandTest {
         hand.add(createCard2());
         assertEquals("two cards", 2, hand.size());
     }
-    
+
     @Test
     public void testForEach() {
         createFilledHand().forEach(Assert::assertNotNull);
@@ -199,7 +232,7 @@ public class HandTest {
     private Card createCard2() {
         return new MonsterCard("Test2", 15, 150, MonsterModus.HEALING);
     }
-    
+
     private Hand createFilledHand() {
         Hand hand = new Hand(2);
         Card card = createCard();
@@ -208,5 +241,18 @@ public class HandTest {
         hand.add(card);
         hand.add(card2);
         return hand;
+    }
+
+    private HandView createHandView() {
+        return new HandView() {
+            @Override
+            public void onCardAdded(final Card card) { }
+
+            @Override
+            public void onCardPlayed(final int cardIndex) { }
+
+            @Override
+            public void onCardsSwapped(final int cardIndexOne, final int cardIndexTwo) { }
+        };
     }
 }
