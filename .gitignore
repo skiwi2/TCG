@@ -3,3 +3,4 @@
 /build/
 /jacoco.exec*
 /.jacocoverage
+/dist/
