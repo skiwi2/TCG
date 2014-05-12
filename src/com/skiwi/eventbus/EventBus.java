@@ -14,11 +14,11 @@ public interface EventBus {
 
     void executeEvent(final Object event);
 
-    void removeListenersOfObject(final Object callbackObject);
+    void deregisterListenersOfObject(final Object callbackObject);
 
-    <T> void removeListener(final Class<T> eventClass, final Consumer<? super T> eventListener);
+    <T> void deregisterListener(final Class<T> eventClass, final Consumer<? super T> eventListener);
 
-    void removeAllListenersOfEvent(final Class<?> eventClass);
+    void deregisterAllListenersOfEvent(final Class<?> eventClass);
 
-    void removeAllListeners();
+    void deregisterAllListeners();
 }

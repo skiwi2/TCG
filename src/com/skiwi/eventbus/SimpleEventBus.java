@@ -62,7 +62,7 @@ public class SimpleEventBus implements EventBus {
     }
 
     @Override
-    public void removeListenersOfObject(final Object callbackObject) {
+    public void deregisterListenersOfObject(final Object callbackObject) {
         Arrays.stream(callbackObject.getClass().getMethods())
                 .filter(this::isEligibleMethod)
                 .forEach(method -> {
@@ -73,7 +73,7 @@ public class SimpleEventBus implements EventBus {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> void removeListener(final Class<T> eventClass, final Consumer<? super T> eventListener) {
+    public <T> void deregisterListener(final Class<T> eventClass, final Consumer<? super T> eventListener) {
         Objects.requireNonNull(eventClass);
         Objects.requireNonNull(eventListener);
         if (eventClassConstraint.isAssignableFrom(eventClass)) {
@@ -82,12 +82,12 @@ public class SimpleEventBus implements EventBus {
     }
 
     @Override
-    public void removeAllListenersOfEvent(final Class<?> eventClass) {
+    public void deregisterAllListenersOfEvent(final Class<?> eventClass) {
         eventMapping.remove(Objects.requireNonNull(eventClass));
     }
 
     @Override
-    public void removeAllListeners() {
+    public void deregisterAllListeners() {
         eventMapping.clear();
     }
 

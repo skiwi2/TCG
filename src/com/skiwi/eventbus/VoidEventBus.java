@@ -18,14 +18,14 @@ public class VoidEventBus implements EventBus {
     public void executeEvent(final Object event) { }
 
     @Override
-    public void removeListenersOfObject(final Object callbackObject) { }
+    public void deregisterListenersOfObject(final Object callbackObject) { }
 
     @Override
-    public <T> void removeListener(final Class<T> eventClass, final Consumer<? super T> eventListener) { }
+    public <T> void deregisterListener(final Class<T> eventClass, final Consumer<? super T> eventListener) { }
 
     @Override
-    public void removeAllListenersOfEvent(final Class<?> eventClass) { }
+    public void deregisterAllListenersOfEvent(final Class<?> eventClass) { }
 
     @Override
-    public void removeAllListeners() {  }
+    public void deregisterAllListeners() {  }
 }

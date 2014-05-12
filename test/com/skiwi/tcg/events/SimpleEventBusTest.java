@@ -1,9 +1,9 @@
 
 package com.skiwi.tcg.events;
 
-import com.skiwi.eventbus.SimpleEventBus;
 import com.skiwi.eventbus.Event;
 import com.skiwi.eventbus.EventBus;
+import com.skiwi.eventbus.SimpleEventBus;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
@@ -154,7 +154,7 @@ public class SimpleEventBusTest {
     }
 
     @Test
-    public void testRemoveListenersOfObject() {
+    public void testDeregisterListenersOfObject() {
         EventBus eventBus = new SimpleEventBus();
         Object object1 = new Object() {
             @Event
@@ -201,13 +201,13 @@ public class SimpleEventBusTest {
         eventBus.executeEvent(new GammaEvent());
         counters().allMatch(counter -> counter.get() == 3);
 
-        eventBus.removeListenersOfObject(object2);
+        eventBus.deregisterListenersOfObject(object2);
         eventBus.executeEvent(new AlphaEvent());
         eventBus.executeEvent(new BetaEvent());
         eventBus.executeEvent(new GammaEvent());
         counters().allMatch(counter -> counter.get() == 4);
 
-        eventBus.removeListenersOfObject(object1);
+        eventBus.deregisterListenersOfObject(object1);
         eventBus.executeEvent(new AlphaEvent());
         eventBus.executeEvent(new BetaEvent());
         eventBus.executeEvent(new GammaEvent());
@@ -215,7 +215,7 @@ public class SimpleEventBusTest {
     }
 
     @Test
-    public void testRemoveListener() {
+    public void testDeregisterListener() {
         EventBus eventBus = new SimpleEventBus();
         Consumer<AlphaEvent> alphaEventListener = alphaEvent -> alphaCounter.incrementAndGet();
         Consumer<BetaEvent> betaEventListener = betaEvent -> betaCounter.incrementAndGet();
@@ -231,7 +231,7 @@ public class SimpleEventBusTest {
         assertEquals(1, betaCounter.get());
         assertEquals(1, gammaCounter.get());
 
-        eventBus.removeListener(GammaEvent.class, gammaEventListener);
+        eventBus.deregisterListener(GammaEvent.class, gammaEventListener);
         eventBus.executeEvent(new AlphaEvent());
         eventBus.executeEvent(new BetaEvent());
         eventBus.executeEvent(new GammaEvent());
@@ -239,7 +239,7 @@ public class SimpleEventBusTest {
         assertEquals(2, betaCounter.get());
         assertEquals(1, gammaCounter.get()); 
 
-        eventBus.removeListener(BetaEvent.class, betaEventListener);
+        eventBus.deregisterListener(BetaEvent.class, betaEventListener);
         eventBus.executeEvent(new AlphaEvent());
         eventBus.executeEvent(new BetaEvent());
         eventBus.executeEvent(new GammaEvent());
@@ -247,7 +247,7 @@ public class SimpleEventBusTest {
         assertEquals(2, betaCounter.get());
         assertEquals(1, gammaCounter.get()); 
 
-        eventBus.removeListener(AlphaEvent.class, alphaEventListener);
+        eventBus.deregisterListener(AlphaEvent.class, alphaEventListener);
         eventBus.executeEvent(new AlphaEvent());
         eventBus.executeEvent(new BetaEvent());
         eventBus.executeEvent(new GammaEvent());
@@ -257,7 +257,7 @@ public class SimpleEventBusTest {
     }
 
     @Test
-    public void testRemoveAllListenersOfEvent() {
+    public void testDeregisterAllListenersOfEvent() {
         EventBus eventBus = new SimpleEventBus();
         eventBus.registerListener(AlphaEvent.class, alphaEvent -> alphaCounter.incrementAndGet());
         eventBus.registerListener(AlphaEvent.class, alphaEvent -> alphaCounter.incrementAndGet());
@@ -273,7 +273,7 @@ public class SimpleEventBusTest {
         assertEquals(2, betaCounter.get());
         assertEquals(1, gammaCounter.get()); 
 
-        eventBus.removeAllListenersOfEvent(AlphaEvent.class);
+        eventBus.deregisterAllListenersOfEvent(AlphaEvent.class);
         eventBus.executeEvent(new AlphaEvent());
         eventBus.executeEvent(new BetaEvent());
         eventBus.executeEvent(new GammaEvent());
@@ -281,7 +281,7 @@ public class SimpleEventBusTest {
         assertEquals(4, betaCounter.get());
         assertEquals(2, gammaCounter.get()); 
 
-        eventBus.removeAllListenersOfEvent(BetaEvent.class);
+        eventBus.deregisterAllListenersOfEvent(BetaEvent.class);
         eventBus.executeEvent(new AlphaEvent());
         eventBus.executeEvent(new BetaEvent());
         eventBus.executeEvent(new GammaEvent());
@@ -289,7 +289,7 @@ public class SimpleEventBusTest {
         assertEquals(4, betaCounter.get());
         assertEquals(3, gammaCounter.get()); 
 
-        eventBus.removeAllListenersOfEvent(GammaEvent.class);
+        eventBus.deregisterAllListenersOfEvent(GammaEvent.class);
         eventBus.executeEvent(new AlphaEvent());
         eventBus.executeEvent(new BetaEvent());
         eventBus.executeEvent(new GammaEvent());
@@ -299,7 +299,7 @@ public class SimpleEventBusTest {
     }
 
     @Test
-    public void testRemoveAllListeners() {
+    public void testDeregisterAllListeners() {
         EventBus eventBus = new SimpleEventBus();
         eventBus.registerListener(AlphaEvent.class, alphaEvent -> alphaCounter.incrementAndGet());
         eventBus.registerListener(AlphaEvent.class, alphaEvent -> alphaCounter.incrementAndGet());
@@ -315,7 +315,7 @@ public class SimpleEventBusTest {
         assertEquals(2, betaCounter.get());
         assertEquals(1, gammaCounter.get()); 
 
-        eventBus.removeAllListeners();
+        eventBus.deregisterAllListeners();
         eventBus.executeEvent(new AlphaEvent());
         eventBus.executeEvent(new BetaEvent());
         eventBus.executeEvent(new GammaEvent());
@@ -343,10 +343,59 @@ public class SimpleEventBusTest {
         eventBus.executeEvent(1);
         assertEquals(3, alphaCounter.get());
     }
+    
+    @Test
+    public void testObjectListenerAndLambdaListenerSimilarity() {
+        EventBus eventBus = new SimpleEventBus();
+        final Object specificObject = new Object();
+        
+        assertEquals(0, alphaCounter.get());
+        
+        Object listener = new Object() {
+            @Event
+            public void onCustomEvent(final CustomEvent customEvent) {
+                alphaCounter.incrementAndGet();
+                assertEquals(specificObject, customEvent.getCustomObject());
+            }
+        };
+        eventBus.registerListenersOfObject(listener);
+        eventBus.executeEvent(new CustomEvent(specificObject));
+        
+        assertEquals(1, alphaCounter.get());
+        
+        eventBus.deregisterListenersOfObject(listener);
+        alphaCounter.set(0);
+        
+        assertEquals(0, alphaCounter.get());
+        
+        eventBus.executeEvent(new CustomEvent(specificObject));
+        
+        assertEquals(0, alphaCounter.get());
+        
+        eventBus.registerListener(CustomEvent.class, customEvent -> {
+            alphaCounter.incrementAndGet();
+            assertEquals(specificObject, customEvent.getCustomObject());
+        });
+        eventBus.executeEvent(new CustomEvent(specificObject));
+        
+        assertEquals(1, alphaCounter.get());
+    }
 
     private static class AlphaEvent { }
 
     private static class BetaEvent { }
 
     private static class GammaEvent { }
+    
+    private static class CustomEvent {
+        private final Object customObject;
+        
+        public CustomEvent(final Object customObject) {
+            this.customObject = customObject;
+        }
+        
+        public Object getCustomObject() {
+            return customObject;
+        }
+    }
 }
