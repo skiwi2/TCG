@@ -1,16 +1,18 @@
 
 package com.skiwi.tcg.model.objects;
 
+import com.skiwi.eventbus.EventBus;
+import com.skiwi.eventbus.EventSender;
+import com.skiwi.tcg.events.HandAddedEvent;
+import com.skiwi.tcg.events.HandPlayedEvent;
+import com.skiwi.tcg.events.HandSwappedEvent;
 import com.skiwi.tcg.model.cards.Card;
 import com.skiwi.tcg.utils.Arguments;
 import com.skiwi.tcg.utils.States;
-import com.skiwi.tcg.view.interfaces.Viewable;
-import com.skiwi.tcg.view.objects.HandView;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -21,8 +23,8 @@ import java.util.function.Consumer;
  *
  * @author Frank van Heeswijk
  */
-public class Hand extends AbstractCollection<Card> implements Collection<Card>, Viewable<Hand, HandView> {
-    private final Collection<HandView> views = new HashSet<>();
+public class Hand extends AbstractCollection<Card> implements Collection<Card>, EventSender {
+    private EventBus eventBus = EventBus.VOID_EVENT_BUS;
 
     private final int capacity;
     private final List<Card> list;
@@ -31,17 +33,10 @@ public class Hand extends AbstractCollection<Card> implements Collection<Card>, 
         this.capacity = Arguments.requirePositive(capacity, "capacity");
         this.list = new ArrayList<>(capacity);
     }
-
+    
     @Override
-    public void addViewCallback(final HandView view) {
-        views.add(Objects.requireNonNull(view));
-    }
-
-    @Override
-    public void removeViewCallback(final HandView view) {
-        if (!views.remove(Objects.requireNonNull(view))) {
-            throw new IllegalStateException("the requested view to remove must be present in the views: " + view);
-        }
+    public void setEventBus(final EventBus eventBus) {
+        this.eventBus = (eventBus == null) ? EventBus.VOID_EVENT_BUS : eventBus;
     }
 
     public boolean isFull() {
@@ -53,7 +48,7 @@ public class Hand extends AbstractCollection<Card> implements Collection<Card>, 
         Objects.requireNonNull(card);
         States.requireFalse(isFull(), "hand is full");
         list.add(card);
-        views.forEach(view -> view.onCardAdded(card));
+        eventBus.executeEvent(new HandAddedEvent(this, card));
         return true;
     }
 
@@ -65,7 +60,7 @@ public class Hand extends AbstractCollection<Card> implements Collection<Card>, 
     public Card play(final int index) {
         checkIndex(index);
         Card result = list.remove(index);
-        views.forEach(view -> view.onCardPlayed(index));
+        eventBus.executeEvent(new HandPlayedEvent(this, index, result));
         return result;
     }
 
@@ -73,7 +68,7 @@ public class Hand extends AbstractCollection<Card> implements Collection<Card>, 
         checkIndex(indexOne);
         checkIndex(indexTwo);
         Collections.swap(list, indexOne, indexTwo);
-        views.forEach(view -> view.onCardsSwapped(indexOne, indexTwo));
+        eventBus.executeEvent(new HandSwappedEvent(this, indexOne, indexTwo));
     }
 
     @Override

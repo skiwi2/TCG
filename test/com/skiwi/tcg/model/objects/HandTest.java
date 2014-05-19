@@ -1,9 +1,9 @@
 
 package com.skiwi.tcg.model.objects;
 
+import com.skiwi.eventbus.SimpleEventBus;
 import com.skiwi.tcg.model.cards.Card;
 import com.skiwi.tcg.model.cards.MonsterCard;
-import com.skiwi.tcg.view.objects.HandView;
 import java.util.Iterator;
 import org.junit.Assert;
 import static org.junit.Assert.*;
@@ -27,37 +27,12 @@ public class HandTest {
     public void testConstructorIAE() {
         new Hand(0);
     }
-
+    
     @Test
-    public void testAddViewCallback() {
+    public void testSetEventBus() {
         Hand hand = new Hand(5);
-        hand.addViewCallback(createHandView());
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testAddViewCallbackViewNull() {
-        Hand hand = new Hand(5);
-        hand.addViewCallback(null);
-    }
-
-    @Test
-    public void testRemoveViewCallback() {
-        Hand hand = new Hand(5);
-        HandView handView = createHandView();
-        hand.addViewCallback(handView);
-        hand.removeViewCallback(handView);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void testRemoveViewCallbackViewNull() {
-        Hand hand = new Hand(5);
-        hand.removeViewCallback(null);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void testRemoveViewCallbackViewNotPresent() {
-        Hand hand = new Hand(5);
-        hand.removeViewCallback(createHandView());
+        hand.setEventBus(null);
+        hand.setEventBus(new SimpleEventBus());
     }
 
     @Test
@@ -241,18 +216,5 @@ public class HandTest {
         hand.add(card);
         hand.add(card2);
         return hand;
-    }
-
-    private HandView createHandView() {
-        return new HandView() {
-            @Override
-            public void onCardAdded(final Card card) { }
-
-            @Override
-            public void onCardPlayed(final int cardIndex) { }
-
-            @Override
-            public void onCardsSwapped(final int cardIndexOne, final int cardIndexTwo) { }
-        };
     }
 }
