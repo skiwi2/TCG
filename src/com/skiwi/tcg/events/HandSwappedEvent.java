@@ -2,6 +2,7 @@
 package com.skiwi.tcg.events;
 
 import com.skiwi.tcg.model.objects.Hand;
+import com.skiwi.tcg.utils.Arguments;
 
 /**
  *
@@ -13,8 +14,8 @@ public class HandSwappedEvent extends HandEvent {
     
     public HandSwappedEvent(final Hand hand, final int indexOne, final int indexTwo) {
         super(hand);
-        this.indexOne = indexOne;
-        this.indexTwo = indexTwo;
+        this.indexOne = Arguments.requirePositiveOrZero(indexOne, "indexOne");
+        this.indexTwo = Arguments.requirePositiveOrZero(indexTwo, "indexTwo");
     }
     
     public int getIndexOne() {

@@ -3,6 +3,7 @@ package com.skiwi.tcg.events;
 
 import com.skiwi.tcg.model.cards.Card;
 import com.skiwi.tcg.model.objects.Hand;
+import com.skiwi.tcg.utils.Arguments;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,7 @@ public class HandPlayedEvent extends HandEvent {
     
     public HandPlayedEvent(final Hand hand, final int index, final Card card) {
         super(hand);
-        this.index = index;
+        this.index = Arguments.requirePositiveOrZero(index, "index");
         this.card = Objects.requireNonNull(card);
     }
     
