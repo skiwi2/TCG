@@ -1,9 +1,6 @@
 
-package com.skiwi.tcg.events;
+package com.skiwi.eventbus;
 
-import com.skiwi.eventbus.Event;
-import com.skiwi.eventbus.EventBus;
-import com.skiwi.eventbus.SimpleEventBus;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
@@ -111,6 +108,30 @@ public class SimpleEventBusTest {
         assertEquals(6, alphaCounter.get());
         assertEquals(4, betaCounter.get());
         assertEquals(2, gammaCounter.get());
+    }
+    
+    @Test
+    public void testRegisterListenersOfObjectIgnoredMethods() {
+        EventBus eventBus = new SimpleEventBus();
+        eventBus.registerListenersOfObject(new Object() {
+            @Event
+            public boolean onAlphaEvent1(final AlphaEvent alphaEvent) {
+                alphaCounter.incrementAndGet();
+                return true;
+            }
+            
+            @Event
+            public void onAlphaEvent2(final AlphaEvent alphaEvent, final boolean secondaryInput) {
+                alphaCounter.incrementAndGet();
+            }
+            
+            @Event
+            public void onAlphaEvent3(final AlphaEvent alphaEvent) {
+                alphaCounter.incrementAndGet();
+            }
+        });
+        eventBus.executeEvent(new AlphaEvent());
+        assertEquals(1, alphaCounter.get());
     }
 
     @Test
