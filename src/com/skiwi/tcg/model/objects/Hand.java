@@ -2,6 +2,7 @@
 package com.skiwi.tcg.model.objects;
 
 import com.skiwi.eventbus.EventBus;
+import com.skiwi.eventbus.EventBusFactory;
 import com.skiwi.eventbus.EventSender;
 import com.skiwi.tcg.events.HandAddedEvent;
 import com.skiwi.tcg.events.HandPlayedEvent;
@@ -24,7 +25,7 @@ import java.util.function.Consumer;
  * @author Frank van Heeswijk
  */
 public class Hand extends AbstractCollection<Card> implements Collection<Card>, EventSender {
-    private EventBus eventBus = EventBus.VOID_EVENT_BUS;
+    private EventBus eventBus = EventBusFactory.getVoidEventBus();
 
     private final int capacity;
     private final List<Card> list;
@@ -36,7 +37,7 @@ public class Hand extends AbstractCollection<Card> implements Collection<Card>, 
     
     @Override
     public void setEventBus(final EventBus eventBus) {
-        this.eventBus = (eventBus == null) ? EventBus.VOID_EVENT_BUS : eventBus;
+        this.eventBus = (eventBus == null) ? EventBusFactory.getVoidEventBus() : eventBus;
     }
 
     public boolean isFull() {
