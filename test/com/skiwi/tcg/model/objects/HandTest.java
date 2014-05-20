@@ -194,6 +194,26 @@ public class HandTest {
         hand.add(createCard2());
         assertEquals("two cards", 2, hand.size());
     }
+    
+    @Test
+    public void testCapacity() {
+        Hand hand = new Hand(5);
+        assertEquals(5, hand.getCapacity());
+    }
+    
+    @Test
+    public void testGetRemainingCapacity() {
+        Hand hand = new Hand(3);
+        assertEquals(3, hand.getRemainingCapacity());
+        hand.add(createCard());
+        assertEquals(2, hand.getRemainingCapacity());
+        hand.add(createCard());
+        assertEquals(1, hand.getRemainingCapacity());
+        hand.add(createCard());
+        assertEquals(0, hand.getRemainingCapacity());
+        hand.play(0);
+        assertEquals(1, hand.getRemainingCapacity());
+    }
 
     @Test
     public void testForEach() {

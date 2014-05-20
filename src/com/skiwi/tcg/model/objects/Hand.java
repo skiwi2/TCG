@@ -97,6 +97,14 @@ public class Hand extends AbstractCollection<Card> implements Collection<Card>, 
         Objects.requireNonNull(action);
         list.forEach(action);
     }
+    
+    public int getCapacity() {
+        return capacity;
+    }
+    
+    public int getRemainingCapacity() {
+        return (capacity - size());
+    }
 
     private void checkIndex(final int index) {
         Arguments.requireIndexInRange(index, 0, size());
