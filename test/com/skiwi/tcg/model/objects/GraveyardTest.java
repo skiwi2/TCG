@@ -12,7 +12,7 @@ import org.junit.Test;
  *
  * @author Frank van Heeswijk
  */
-public class GraveyardTest extends PileTest {
+public class GraveyardTest {
     static {
         assertTrue(true);
     }

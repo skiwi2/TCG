@@ -137,6 +137,23 @@ public class PileTest {
     }
     
     @Test
+    public void testGetEqualsTake() {
+        Pile pile = new PileImpl();
+        Card card = createCard();
+        Card card2 = createCard2();
+        assertNotSame(card, card2);
+        pile.add(card);
+        pile.add(card2);
+        Card getFirst = pile.get(0);
+        Card takeFirst = pile.take(0);
+        assertEquals("first cards", getFirst, takeFirst);
+        Card getSecond = pile.get(0);
+        Card takeSecond = pile.take(0);
+        assertEquals("second cards", getSecond, takeSecond);
+        assertTrue(pile.isEmpty());
+    }
+    
+    @Test
     public void testSize() {
         Pile pile = new PileImpl();
         assertEquals("empty pile", 0, pile.size());
