@@ -4,6 +4,7 @@ package com.skiwi.tcg.model.objects;
 import com.skiwi.tcg.model.cards.MonsterCard;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -62,6 +63,15 @@ public class FieldTest {
         Field field = new Field(6);
         field.setMonster(0, null);
     }
+    
+    @Test(expected = IllegalStateException.class)
+    public void testSetMonsterMonsterAlreadyExists() {
+        Field field = new Field(1);
+        MonsterCard monsterCard = createMonsterCard();
+        MonsterCard monsterCard2 = createMonsterCard2();
+        field.setMonster(0, monsterCard);
+        field.setMonster(0, monsterCard2);
+    }
 
     @Test
     public void testGetMonster() {
@@ -83,7 +93,7 @@ public class FieldTest {
         field.getMonster(6);
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test(expected = IllegalStateException.class)
     public void testGetMonsterNoMonster() {
         Field field = new Field(6);
         field.getMonster(0);
@@ -129,7 +139,7 @@ public class FieldTest {
         field.destroyMonster(6);
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test(expected = IllegalStateException.class)
     public void testDestroyMonsterNoMonster() {
         Field field = new Field(6);
         field.destroyMonster(0);

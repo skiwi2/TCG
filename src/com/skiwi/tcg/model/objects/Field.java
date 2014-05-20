@@ -24,13 +24,14 @@ public class Field {
     public void setMonster(final int index, final MonsterCard monsterCard) {
         Arguments.requireIndexInRange(index, 0, monsters.length);
         Objects.requireNonNull(monsterCard);
+        States.requireNull(monsters[index], IllegalStateException::new, "a monster already exists on index: " + index);
         monsters[index] = monsterCard;
     }
 
     public MonsterCard getMonster(final int index) {
         Arguments.requireIndexInRange(index, 0, monsters.length);
         MonsterCard monsterCard = monsters[index];
-        States.requireNonNull(monsterCard, NoSuchElementException::new, "no monster exists on index: " + index);
+        States.requireNonNull(monsterCard, IllegalStateException::new, "no monster exists on index: " + index);
         return monsterCard;
     }
 
@@ -42,7 +43,7 @@ public class Field {
     public MonsterCard destroyMonster(final int index) {
         Arguments.requireIndexInRange(index, 0, monsters.length);
         MonsterCard monsterCard = monsters[index];
-        States.requireNonNull(monsterCard, NoSuchElementException::new, "no monster exists on index: " + index);
+        States.requireNonNull(monsterCard, IllegalStateException::new, "no monster exists on index: " + index);
         monsters[index] = null;
         return monsterCard;
     }
