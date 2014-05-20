@@ -15,6 +15,8 @@ public class StatesTest {
     static {
         assertTrue(true);
     }
+    
+    /** States.requireTrue **/
 
     @Test
     public void testRequireTrue_boolean() {
@@ -40,6 +42,8 @@ public class StatesTest {
     public void testRequireTrue_boolean_StringNPE() {
         States.requireTrue(true, null);
     }
+    
+    /** States.requireFalse **/
 
     @Test
     public void testRequireFalse_boolean() {
@@ -65,6 +69,8 @@ public class StatesTest {
     public void testRequireFalse_boolean_StringNPE() {
         States.requireFalse(false, null);
     }
+    
+    /** States.requireEmpty **/
 
     @Test
     public void testRequireEmpty_GenericType() {
@@ -92,6 +98,8 @@ public class StatesTest {
     public void testRequireEmpty_GenericType_StringNPE() {
         States.requireEmpty(Arrays.asList(), null);
     }
+    
+    /** States.requireNonEmpty **/
 
     @Test
     public void testRequireNonEmpty_GenericType() {
@@ -119,6 +127,50 @@ public class StatesTest {
     public void testRequireNonEmpty_GenericType_StringNPE() {
         States.requireNonEmpty(Arrays.asList(2, 5), null);
     }
+    
+    /** States.requireNull **/
+    
+    @Test
+    public void testRequireNull_2argsNull() {
+        assertEquals((Object)null, States.requireNull(null, CustomException::new));
+    }
+    
+    @Test(expected = CustomException.class)
+    public void testRequireNull_2argsNonNull() {
+        States.requireNull(new Object(), CustomException::new);
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testRequireNull_2argsSupplierNull() {
+        States.requireNull(null, null);
+    }
+    
+    @Test
+    public void testRequireNull_3argsNull() {
+        Object object = new Object();
+        assertEquals((Object)null, States.requireNull(null, CustomException::new, "custom message"));
+    }
+    
+    @Test
+    public void testRequireNull_3argsNonNull() {
+        try {
+            States.requireNull(new Object(), CustomException::new, "custom message");
+        } catch (CustomException ex) {
+            assertEquals("custom message", ex.getMessage());
+        }
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testRequireNull_3argsSupplierNull() {
+        States.requireNull(null, null, "custom message");
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testRequireNull_3argsMessageNull() {
+        States.requireNull(null, CustomException::new, null);
+    }
+    
+    /** States.requireNonNull **/
     
     @Test
     public void testRequireNonNull_2argsNonNull() {

@@ -64,6 +64,23 @@ public final class States {
         return collection;
     }
     
+    public static <T, E extends RuntimeException> T requireNull(final T object, final Supplier<E> exceptionSupplier) throws E {
+        Objects.requireNonNull(exceptionSupplier);
+        if (object != null) {
+            throw exceptionSupplier.get();
+        }
+        return object;
+    }
+    
+    public static <T, E extends RuntimeException> T requireNull(final T object, final Function<String, E> exceptionFunction, final String message) throws E {
+        Objects.requireNonNull(exceptionFunction);
+        Objects.requireNonNull(message);
+        if (object != null) {
+            throw exceptionFunction.apply(message);
+        }
+        return object;
+    }
+    
     public static <T, E extends RuntimeException> T requireNonNull(final T object, final Supplier<E> exceptionSupplier) throws E {
         Objects.requireNonNull(exceptionSupplier);
         if (object == null) {
