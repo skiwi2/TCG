@@ -17,6 +17,11 @@ public class Graveyard extends Pile {
         super(cards);
     }
     
+    public void transferAll(final Collection<? super Card> collection) {
+        collection.addAll(this);
+        clear();
+    }
+    
     @Override
     public String toString() {
         return Graveyard.class.getSimpleName() + "(" + size() + ")";
