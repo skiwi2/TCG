@@ -2,8 +2,9 @@
 package com.skiwi.tcg.model.objects;
 
 import com.skiwi.tcg.model.cards.Card;
-import com.skiwi.tcg.utils.States;
 import java.util.Collection;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  *
@@ -18,9 +19,17 @@ public class Deck extends Pile {
         super(cards);
     }
     
-    public Card take() {
-        States.requireNonEmpty(this, "deck");
-        return take(0);
+    public Optional<Card> take() {
+        if (isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(take(0));
+    }
+    
+    public static Deck newShuffledDeck(final Collection<? extends Card> cards) {
+        Deck deck = new Deck(Objects.requireNonNull(cards));
+        deck.shuffle();
+        return deck;
     }
     
     @Override

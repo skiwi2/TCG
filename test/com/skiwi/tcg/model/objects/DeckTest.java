@@ -5,7 +5,7 @@ import com.skiwi.tcg.model.cards.Card;
 import com.skiwi.tcg.model.cards.MonsterCard;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.NoSuchElementException;
+import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -13,23 +13,23 @@ import org.junit.Test;
  *
  * @author Frank van Heeswijk
  */
-public class DeckTest extends PileTest {
+public class DeckTest {
     static {
         assertTrue(true);
     }
     
     @Test
-    public void testConstructor() {
+    public void testDeckConstructor() {
         new Deck();
     }
     
     @Test
-    public void testConstructor_collection() {
+    public void testDeckConstructor_collection() {
         new Deck(createCollection());
     }
     
     @Test(expected = NullPointerException.class)
-    public void testConstructor_collectionNPE() {
+    public void testDeckConstructor_collectionNPE() {
         new Deck(null);
     }
 
@@ -41,15 +41,56 @@ public class DeckTest extends PileTest {
         assertNotSame("card should be unequal to card2", card, card2);
         deck.add(card);
         deck.add(card2);
-        assertEquals("top card should be card2", card2, deck.take());
-        assertEquals("top card should now be card", card, deck.take());
+        assertEquals("top card should be card2", card2, deck.take().get());
+        assertEquals("top card should now be card", card, deck.take().get());
         assertTrue(deck.isEmpty());
     }
     
-    @Test(expected = NoSuchElementException.class)
-    public void testTakeNSE() {
+    @Test
+    public void testTakeEmpty() {
         Deck deck = new Deck();
-        deck.take();
+        assertFalse(deck.take().isPresent());
+    }
+    
+    @Test
+    public void testTakeFirstSimilarToTake() {
+        Card cardTakeFirst;
+        Card cardTake;
+        
+        Card card = createCard();
+        Card card2 = createCard2();
+        assertNotSame(card, card2);
+        
+        Deck deck = new Deck();
+        deck.add(card);
+        deck.add(card2);
+        cardTakeFirst = deck.take(0);
+        
+        Deck deck2 = new Deck();
+        deck2.add(card);
+        deck2.add(card2);
+        cardTake = deck2.take().get();
+        
+        assertEquals("take first and take should be equal", cardTakeFirst, cardTake);
+    }
+    
+    @Test
+    public void testNewShuffledDeck() {
+        Card card = createCard();
+        Card card2 = createCard2();
+        List<Card> list = new ArrayList<>();
+        list.add(card);
+        list.add(card2);
+        assertNotSame(card, card2);
+        Deck deck = Deck.newShuffledDeck(list);
+        assertEquals(2, deck.size());
+        assertTrue(deck.contains(card));
+        assertTrue(deck.contains(card2));
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void testNewShuffledDeckNullCollection() {
+        Deck.newShuffledDeck(null);
     }
     
     @Test
