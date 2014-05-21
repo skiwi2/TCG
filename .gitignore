@@ -3,3 +3,4 @@
 /jacoco.exec*
 /.jacocoverage
 /dist/
+/nbproject/
