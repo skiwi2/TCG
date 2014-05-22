@@ -4,3 +4,4 @@
 /.jacocoverage
 /dist/
 /nbproject/
+/build.xml
