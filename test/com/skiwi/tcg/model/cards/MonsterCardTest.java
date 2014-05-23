@@ -250,43 +250,6 @@ public class MonsterCardTest {
         MonsterCard attackerMonsterCard = new MonsterCard("Beta", 20, 20, MonsterModus.HEALING);
         attackerMonsterCard.attack(monsterCard);
     }
-    
-    @Test
-    public void testHashCode() {
-        MonsterCard monsterCard = new MonsterCard("Test", 5, 5, MonsterModus.HEALING);
-        MonsterCard monsterCard2 = new MonsterCard("Test", 5, 5, MonsterModus.HEALING);
-        assertTrue(monsterCard.equals(monsterCard2));
-        assertEquals(monsterCard.hashCode(), monsterCard2.hashCode());
-        
-        MonsterCard monsterCard3 = new MonsterCard("Test", 5, 5, MonsterModus.OFFENSIVE);
-        monsterCard3.decreaseHitpoints(1);
-        assertTrue(monsterCard.equals(monsterCard3));
-        assertEquals(monsterCard.hashCode(), monsterCard3.hashCode());
-    }
-
-    @Test
-    public void testEquals() {
-        MonsterCard monsterCard = new MonsterCard("Test", 5, 5, MonsterModus.HEALING);
-        MonsterCard monsterCard2 = new MonsterCard("Test", 5, 5, MonsterModus.HEALING);
-        assertTrue(monsterCard.equals(monsterCard2));
-        
-        MonsterCard monsterCard3 = new MonsterCard("Test", 5, 5, MonsterModus.OFFENSIVE);
-        monsterCard3.decreaseHitpoints(1);
-        assertTrue(monsterCard.equals(monsterCard3));
-        
-        assertFalse(monsterCard.equals(null));
-        
-        assertFalse(monsterCard.equals("a"));
-        
-        MonsterCard monsterCard4 = new MonsterCard("Testt", 5, 5, MonsterModus.HEALING);
-        assertFalse(monsterCard.equals(monsterCard4));
-        
-        MonsterCard monsterCard5 = new MonsterCard("Test", 7, 5, MonsterModus.HEALING);
-        assertFalse(monsterCard.equals(monsterCard5));
-        
-        MonsterCard monsterCard6 = new MonsterCard("Test", 5, 7, MonsterModus.HEALING);
-        assertFalse(monsterCard.equals(monsterCard6));
-    }
 
     @Test
     public void testToString() {

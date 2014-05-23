@@ -3,8 +3,6 @@ package com.skiwi.tcg.model.objects;
 
 import com.skiwi.tcg.model.cards.MonsterCard;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 import org.junit.Test;

@@ -36,36 +36,6 @@ public final class FusionCard implements Card {
     public FusionStat getFusionStat() {
         return fusionStat;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.name);
-        hash = 59 * hash + this.fusionPower;
-        hash = 59 * hash + Objects.hashCode(this.fusionStat);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final FusionCard other = (FusionCard)obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (this.fusionPower != other.fusionPower) {
-            return false;
-        }
-        if (this.fusionStat != other.fusionStat) {
-            return false;
-        }
-        return true;
-    }
     
     @Override
     public String toString() {
