@@ -19,7 +19,7 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
   ID_TO_DELETE=`cat latest.txt |jq '.[0].id'`
 
   # default to 1 if nothing was found
-  if [ "$ID_TO_DELETE" == "" ]; then
+  if [ "$ID_TO_DELETE" == "" -o "$_ID_TO_DELETE" == "null" ]; then
     ID_TO_DELETE=1
   fi
 
