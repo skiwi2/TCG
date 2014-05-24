@@ -18,6 +18,11 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
   # get id of release
   ID_TO_DELETE=`cat latest.txt |jq '.[0].id'`
 
+  # default to 1 if nothing was found
+  if [ "$ID_TO_DELETE" == "" ]; then
+    ID_TO_DELETE=1
+  fi
+
   # delete previous release
   echo -e "Deleting release number ${ID_TO_DELETE}"
   curl -X DELETE -H "Authorization: token ${GH_TOKEN}" \
