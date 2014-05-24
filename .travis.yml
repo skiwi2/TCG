@@ -5,7 +5,7 @@ jdk:
 
 branches:
     except:
-        - latest_master
+        - latest-master
         
 install:
     - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes jq; fi
