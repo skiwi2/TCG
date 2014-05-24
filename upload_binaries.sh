@@ -44,7 +44,11 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
   # print all files in target directory
   for filename in /home/travis/build/${GH_USER}/${GH_REPO}/target/*
   do
+    actualsize=$(wc -c "$filename" | cut -f 1 -d ' ')
     echo $filename
+    echo "\n"
+    echo $actualsize
+    echo " bytes\n"
   done;
 
   echo -e "Uploading JAR\n"
