@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 if [ "$TRAVIS_BRANCH" == "master" ]; then
