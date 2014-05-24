@@ -1,6 +1,12 @@
 language: java
+
 jdk:
     - oraclejdk8
     
 after_success:
+    - ./upload_binaries.sh
     - mvn clean test jacoco:report coveralls:jacoco
+    
+env:
+    global:
+        secure: "K+vew/JP2/aPnR6YpHQDEnLkY8vfFHRcF/Xm//6q5xTTjvZnRZlJSN8e8aE8ohQFiDClJbIETK0x1v9f/dmWUKxD6QmrNJh5LwErTcmUhVGXooR4ImY/5JBVLeMLq4mLqD61O3dJeo7zzOHHCXD9mTaj0bDySGBdA/hoOVpPFBw="
