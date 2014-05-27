@@ -8,5 +8,5 @@ package com.skiwi.tcg.model.players;
 public interface PlayerAction {
     boolean isActionAllowed(final Player player);
     
-    void performAction(final Player player) throws PlayerActionNotAllowed;
+    void performAction(final Player player) throws PlayerActionNotAllowedException;
 }
