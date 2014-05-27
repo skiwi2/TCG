@@ -3,6 +3,7 @@ package com.skiwi.tcg.model.objects;
 
 import com.skiwi.tcg.model.cards.FusionCard;
 import com.skiwi.tcg.model.cards.MonsterCard;
+import com.skiwi.tcg.model.cards.MonsterCardBuilder;
 import java.util.Objects;
 
 /**
@@ -12,18 +13,18 @@ import java.util.Objects;
 public enum FusionStat implements MonsterStatBuilder {
     ATTACK {
         @Override
-        public MonsterCard.MonsterCardBuilder createBuilder(final MonsterCard baseMonsterCard, final MonsterCard fusedMonsterCard, final FusionCard fusionCard) {
+        public MonsterCardBuilder createBuilder(final MonsterCard baseMonsterCard, final MonsterCard fusedMonsterCard, final FusionCard fusionCard) {
             assertArguments(baseMonsterCard, fusedMonsterCard, fusionCard);
-            return new MonsterCard.MonsterCardBuilder(baseMonsterCard)
+            return new MonsterCardBuilder(baseMonsterCard)
                     .attack((int)(baseMonsterCard.getAttack() + (fusionCard.getFusionPower() / 100d * fusedMonsterCard.getAttack())));
         }
     },
 
     HITPOINTS {
         @Override
-        public MonsterCard.MonsterCardBuilder createBuilder(final MonsterCard baseMonsterCard, final MonsterCard fusedMonsterCard, final FusionCard fusionCard) {
+        public MonsterCardBuilder createBuilder(final MonsterCard baseMonsterCard, final MonsterCard fusedMonsterCard, final FusionCard fusionCard) {
             assertArguments(baseMonsterCard, fusedMonsterCard, fusionCard);
-            return new MonsterCard.MonsterCardBuilder(baseMonsterCard)
+            return new MonsterCardBuilder(baseMonsterCard)
                     .maximumHitpoints((int)(baseMonsterCard.getMaximumHitpoints() + (fusionCard.getFusionPower() / 100d * fusedMonsterCard.getMaximumHitpoints())))
                     .hitpoints((int)(baseMonsterCard.getHitpoints() + (fusionCard.getFusionPower() / 100d * fusedMonsterCard.getHitpoints())));
         }
@@ -41,5 +42,5 @@ public enum FusionStat implements MonsterStatBuilder {
 
 @FunctionalInterface
 interface MonsterStatBuilder {
-    MonsterCard.MonsterCardBuilder createBuilder(final MonsterCard baseMonsterCard, final MonsterCard fusedMonsterCard, final FusionCard fusionCard);
+    MonsterCardBuilder createBuilder(final MonsterCard baseMonsterCard, final MonsterCard fusedMonsterCard, final FusionCard fusionCard);
 }

@@ -11,7 +11,7 @@ import org.junit.Test;
  * @author Frank van Heeswijk
  */
 public class MonsterCardBuilderTest {
-    private MonsterCard.MonsterCardBuilder builder;
+    private MonsterCardBuilder builder;
     
     static {
         assertTrue(true);
@@ -19,19 +19,19 @@ public class MonsterCardBuilderTest {
     
     @Before
     public void before() {
-        builder = new MonsterCard.MonsterCardBuilder();
+        builder = new MonsterCardBuilder();
     }
     
     @Test
     public void testConstructorNoArgument() {
-        new MonsterCard.MonsterCardBuilder();
+        new MonsterCardBuilder();
     }
     
     @Test
     public void testConstructorSource() {
         MonsterCard monsterCard = new MonsterCard("Test", 5, 5, MonsterModus.OFFENSIVE);
         monsterCard.decreaseHitpoints(2);
-        MonsterCard builtCard = new MonsterCard.MonsterCardBuilder(monsterCard).build();
+        MonsterCard builtCard = new MonsterCardBuilder(monsterCard).build();
         assertEquals(monsterCard.getName(), builtCard.getName());
         assertEquals(monsterCard.getAttack(), builtCard.getAttack());
         assertEquals(monsterCard.getMaximumHitpoints(), builtCard.getMaximumHitpoints());
@@ -40,11 +40,9 @@ public class MonsterCardBuilderTest {
     
     @Test(expected = NullPointerException.class)
     public void testConstructorNullSource() {
-        new MonsterCard.MonsterCardBuilder(null);
+        new MonsterCardBuilder(null);
     }
-    
-    @Test
-    public void testName() {
+       public void testName() {
         assertNotNull(builder.name("Test"));
     }
     
