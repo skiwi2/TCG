@@ -21,7 +21,8 @@ public class PlayerConfigurationTest {
     public void testConstructor() {
         TurnAction turnAction = new TurnActionImpl();
         List<Card> cards = new ArrayList<>();
-        PlayerConfiguration playerConfiguration = new PlayerConfiguration(turnAction, 5, 7, cards);
+        PlayerConfiguration playerConfiguration = new PlayerConfiguration(100, turnAction, 5, 7, cards);
+        assertEquals(100, playerConfiguration.getHitpoints());
         assertEquals(turnAction, playerConfiguration.getTurnAction());
         assertEquals(5, playerConfiguration.getHandCapacity());
         assertEquals(7, playerConfiguration.getFieldMonsterCapacity());
@@ -30,19 +31,27 @@ public class PlayerConfigurationTest {
     
     @Test(expected = NullPointerException.class)
     public void testConstructorNullTurnAction() {
-        new PlayerConfiguration(null, 5, 5, Collections.emptyList());
+        new PlayerConfiguration(100, null, 5, 5, Collections.emptyList());
     }
     
     @Test(expected = NullPointerException.class)
     public void testConstructorNullDeckCards() {
-        new PlayerConfiguration(new TurnActionImpl(), 5, 5, null);
+        new PlayerConfiguration(100, new TurnActionImpl(), 5, 5, null);
+    }
+    
+    @Test
+    public void testGetHitpoints() {
+        TurnAction turnAction = new TurnActionImpl();
+        List<Card> cards = new ArrayList<>();
+        PlayerConfiguration playerConfiguration = new PlayerConfiguration(100, turnAction, 5, 7, cards);
+        assertEquals(100, playerConfiguration.getHitpoints());
     }
     
     @Test
     public void testGetTurnAction() {
         TurnAction turnAction = new TurnActionImpl();
         List<Card> cards = new ArrayList<>();
-        PlayerConfiguration playerConfiguration = new PlayerConfiguration(turnAction, 5, 7, cards);
+        PlayerConfiguration playerConfiguration = new PlayerConfiguration(100, turnAction, 5, 7, cards);
         assertEquals(turnAction, playerConfiguration.getTurnAction());
     }
     
@@ -50,7 +59,7 @@ public class PlayerConfigurationTest {
     public void testGetHandCapacity() {
         TurnAction turnAction = new TurnActionImpl();
         List<Card> cards = new ArrayList<>();
-        PlayerConfiguration playerConfiguration = new PlayerConfiguration(turnAction, 5, 7, cards);
+        PlayerConfiguration playerConfiguration = new PlayerConfiguration(100, turnAction, 5, 7, cards);
         assertEquals(5, playerConfiguration.getHandCapacity());
     }
     
@@ -58,7 +67,7 @@ public class PlayerConfigurationTest {
     public void testGetFieldMonsterCapacity() {
         TurnAction turnAction = new TurnActionImpl();
         List<Card> cards = new ArrayList<>();
-        PlayerConfiguration playerConfiguration = new PlayerConfiguration(turnAction, 5, 7, cards);
+        PlayerConfiguration playerConfiguration = new PlayerConfiguration(100, turnAction, 5, 7, cards);
         assertEquals(7, playerConfiguration.getFieldMonsterCapacity());
     }
     
@@ -66,7 +75,7 @@ public class PlayerConfigurationTest {
     public void testGetDeckCards() {
         TurnAction turnAction = new TurnActionImpl();
         List<Card> cards = new ArrayList<>();
-        PlayerConfiguration playerConfiguration = new PlayerConfiguration(turnAction, 5, 7, cards);
+        PlayerConfiguration playerConfiguration = new PlayerConfiguration(100, turnAction, 5, 7, cards);
         assertEquals(cards, playerConfiguration.getDeckCards());
     }
     

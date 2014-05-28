@@ -31,47 +31,58 @@ public class PlayerTest {
         Field field = new Field(5);
         Deck deck = new Deck();
         Graveyard graveyard = new Graveyard();
-        Player player = new Player("Test", new TurnActionImpl(), hand, field, deck, graveyard);
+        Player player = new Player("Test", 100, new TurnActionImpl(), hand, field, deck, graveyard);
         assertEquals("Test", player.getName());
+        assertEquals(100, player.getHitpoints());
         assertEquals(hand, player.getHand());
         assertEquals(field, player.getField());
         assertEquals(deck, player.getDeck());
         assertEquals(graveyard, player.getGraveyard());
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructorNegativeHitpoints() {
+        new Player("Test", -1, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructorZeroHitpoints() {
+        new Player("Test", 0, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+    }
+    
     @Test(expected = NullPointerException.class)
     public void testConstructorNullName() {
-        new Player(null, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        new Player(null, 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorEmptyName() {
-        new Player("", new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        new Player("", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
     }
     
     @Test(expected = NullPointerException.class)
     public void testConstructorNullTurnAction() {
-        new Player("Test", null, new Hand(5), new Field(5), new Deck(), new Graveyard());
+        new Player("Test", 100, null, new Hand(5), new Field(5), new Deck(), new Graveyard());
     }
     
     @Test(expected = NullPointerException.class)
     public void testConstructorNullHand() {
-        new Player("Test", new TurnActionImpl(), null, new Field(5), new Deck(), new Graveyard());
+        new Player("Test", 100, new TurnActionImpl(), null, new Field(5), new Deck(), new Graveyard());
     }
     
     @Test(expected = NullPointerException.class)
     public void testConstructorNullField() {
-        new Player("Test", new TurnActionImpl(), new Hand(5), null, new Deck(), new Graveyard());
+        new Player("Test", 100, new TurnActionImpl(), new Hand(5), null, new Deck(), new Graveyard());
     }
     
     @Test(expected = NullPointerException.class)
     public void testConstructorNullDeck() {
-        new Player("Test", new TurnActionImpl(), new Hand(5), new Field(5), null, new Graveyard());
+        new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), null, new Graveyard());
     }
     
     @Test(expected = NullPointerException.class)
     public void testConstructorNullGraveyard() {
-        new Player("Test", new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), null);
+        new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), null);
     }
     
     @Test
@@ -79,6 +90,7 @@ public class PlayerTest {
         List<Card> cards = new ArrayList<>();
         cards.add(new MonsterCard("Test", 5, 5, MonsterModus.HEALING));
         PlayerConfiguration playerConfiguration = new PlayerConfigurationBuilder()
+                .hitpoints(100)
                 .turnAction(new TurnActionImpl())
                 .handCapacity(5)
                 .fieldMonsterCapacity(5)
@@ -86,6 +98,7 @@ public class PlayerTest {
                 .build();
         Player player = Player.createFromConfiguration(playerConfiguration, "Test");
         assertEquals("Test", player.getName());
+        assertEquals(100, player.getHitpoints());
         assertEquals(5, player.getHand().getCapacity());
         assertEquals(5, player.getField().getMonsterCapacity());
         assertTrue(player.getDeck().containsAll(cards));
@@ -102,6 +115,7 @@ public class PlayerTest {
         List<Card> cards = new ArrayList<>();
         cards.add(new MonsterCard("Test", 5, 5, MonsterModus.HEALING));
         PlayerConfiguration playerConfiguration = new PlayerConfigurationBuilder()
+                .hitpoints(100)
                 .turnAction(new TurnActionImpl())
                 .handCapacity(5)
                 .fieldMonsterCapacity(5)
@@ -112,7 +126,7 @@ public class PlayerTest {
     
     @Test
     public void testSetGame() {
-        Player player = new Player("Test", new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
         Game game = new Game();
         player.setGame(game);
         assertEquals(game, player.getGame());
@@ -120,13 +134,13 @@ public class PlayerTest {
     
     @Test(expected = NullPointerException.class)
     public void testSetGameNullGame() {
-        Player player = new Player("Test", new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
         player.setGame(null);
     }
     
     @Test(expected = IllegalStateException.class)
     public void testSetGameAlreadyConstructed() {
-        Player player = new Player("Test", new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
         Game game = new Game();
         player.setGame(game);
         player.setGame(game);
@@ -135,7 +149,7 @@ public class PlayerTest {
     @Test
     public void testPlayTurn() {
         AtomicInteger counter = new AtomicInteger(0);
-        Player player = new Player("Test", p -> counter.incrementAndGet(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        Player player = new Player("Test", 100, p -> counter.incrementAndGet(), new Hand(5), new Field(5), new Deck(), new Graveyard());
         player.setGame(new Game());
         player.playTurn();
         assertEquals(1, counter.get());
@@ -143,13 +157,45 @@ public class PlayerTest {
     
     @Test(expected = IllegalStateException.class)
     public void testPlayTurnNotConstructed() {
-        Player player = new Player("Test", new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
         player.playTurn();
     }
     
     @Test
+    public void testIncreaseHitpoints() {
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        assertEquals(10, player.increaseHitpoints(10));
+        assertEquals(110, player.getHitpoints());
+        assertFalse(player.isDead());
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testIncreaseHitpointsNegativeIncrement() {
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        player.increaseHitpoints(-1);
+    }
+    
+    @Test
+    public void testDecreaseHitpoints() {
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        assertEquals(40, player.decreaseHitpoints(40));
+        assertEquals(60, player.getHitpoints());
+        assertFalse(player.isDead());
+        
+        assertEquals(60, player.decreaseHitpoints(120));
+        assertEquals(0, player.getHitpoints());
+        assertTrue(player.isDead());
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testdecreaseHitpointsNegativeDecrement() {
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        player.decreaseHitpoints(-1);
+    }
+    
+    @Test
     public void testGetGame() {
-        Player player = new Player("Test", new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
         Game game = new Game();
         player.setGame(game);
         assertEquals(game, player.getGame());
@@ -157,7 +203,7 @@ public class PlayerTest {
     
     @Test(expected = IllegalStateException.class)
     public void testGetGameNotConstructed() {
-        Player player = new Player("Test", new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
         player.getGame();
     }
     
@@ -167,7 +213,7 @@ public class PlayerTest {
         Field field = new Field(5);
         Deck deck = new Deck();
         Graveyard graveyard = new Graveyard();
-        Player player = new Player("Test", new TurnActionImpl(), hand, field, deck, graveyard);
+        Player player = new Player("Test", 100, new TurnActionImpl(), hand, field, deck, graveyard);
         assertEquals("Test", player.getName());
     }
     
@@ -177,7 +223,7 @@ public class PlayerTest {
         Field field = new Field(5);
         Deck deck = new Deck();
         Graveyard graveyard = new Graveyard();
-        Player player = new Player("Test", new TurnActionImpl(), hand, field, deck, graveyard);
+        Player player = new Player("Test", 100, new TurnActionImpl(), hand, field, deck, graveyard);
         assertEquals(hand, player.getHand());
     }
     
@@ -187,7 +233,7 @@ public class PlayerTest {
         Field field = new Field(5);
         Deck deck = new Deck();
         Graveyard graveyard = new Graveyard();
-        Player player = new Player("Test", new TurnActionImpl(), hand, field, deck, graveyard);
+        Player player = new Player("Test", 100, new TurnActionImpl(), hand, field, deck, graveyard);
         assertEquals(field, player.getField());
     }
     
@@ -197,7 +243,7 @@ public class PlayerTest {
         Field field = new Field(5);
         Deck deck = new Deck();
         Graveyard graveyard = new Graveyard();
-        Player player = new Player("Test", new TurnActionImpl(), hand, field, deck, graveyard);
+        Player player = new Player("Test", 100, new TurnActionImpl(), hand, field, deck, graveyard);
         assertEquals(deck, player.getDeck());
     }
     
@@ -207,8 +253,18 @@ public class PlayerTest {
         Field field = new Field(5);
         Deck deck = new Deck();
         Graveyard graveyard = new Graveyard();
-        Player player = new Player("Test", new TurnActionImpl(), hand, field, deck, graveyard);
+        Player player = new Player("Test", 100, new TurnActionImpl(), hand, field, deck, graveyard);
         assertEquals(graveyard, player.getGraveyard());
+    }
+    
+    @Test
+    public void testIsDead() {
+        Hand hand = new Hand(5);
+        Field field = new Field(5);
+        Deck deck = new Deck();
+        Graveyard graveyard = new Graveyard();
+        Player player = new Player("Test", 100, new TurnActionImpl(), hand, field, deck, graveyard);
+        assertFalse(player.isDead());
     }
     
     @Test
@@ -216,6 +272,7 @@ public class PlayerTest {
         List<Card> cards = new ArrayList<>();
         cards.add(new MonsterCard("Test", 5, 5, MonsterModus.HEALING));
         PlayerConfiguration playerConfiguration = new PlayerConfigurationBuilder()
+                .hitpoints(100)
                 .turnAction(new TurnActionImpl())
                 .handCapacity(5)
                 .fieldMonsterCapacity(5)
@@ -232,14 +289,14 @@ public class PlayerTest {
     
     @Test(expected = IllegalStateException.class)
     public void testGetOpponentNotConstructed() {
-        Player player = new Player("Test", new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
         player.getOpponent();
     }
     
     @Test
     public void testToString() {
-        Player player = new Player("Test", new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
-        assertEquals("Player(Test)", player.toString());
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(), new Graveyard());
+        assertEquals("Player(Test, 100)", player.toString());
     }
     
     private static class TurnActionImpl implements TurnAction {

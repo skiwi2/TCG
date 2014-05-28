@@ -21,13 +21,16 @@ public class Player {
     private final Deck deck;
     private final Graveyard graveyard;
     
+    private int hitpoints;
     private Game game;
+    
     private Status status = Status.NOT_CONSTRUCTED;
     
-    public Player(final String name, final TurnAction turnAction, final Hand hand, final Field field, final Deck deck, final Graveyard graveyard) {
+    public Player(final String name, final int hitpoints, final TurnAction turnAction, final Hand hand, final Field field, final Deck deck, final Graveyard graveyard) {
         Objects.requireNonNull(name);
         Arguments.requireMinimalLength(name, 1, "name");
         this.name = name;
+        this.hitpoints = Arguments.requirePositive(hitpoints, "hitpoints");
         this.turnAction = Objects.requireNonNull(turnAction);
         this.hand = Objects.requireNonNull(hand);
         this.field = Objects.requireNonNull(field);
@@ -40,6 +43,7 @@ public class Player {
         Objects.requireNonNull(name, "name");
         return new Player(
                 name,
+                playerConfiguration.getHitpoints(),
                 playerConfiguration.getTurnAction(),
                 new Hand(playerConfiguration.getHandCapacity()), 
                 new Field(playerConfiguration.getFieldMonsterCapacity()), 
@@ -67,6 +71,20 @@ public class Player {
         }
     }
     
+    public int increaseHitpoints(final int increment) {
+        Arguments.requirePositiveOrZero(increment, "increment");
+        int oldHitpoints = hitpoints;
+        hitpoints += increment;
+        return hitpoints - oldHitpoints;
+    }
+    
+    public int decreaseHitpoints(final int decrement) {
+        Arguments.requirePositiveOrZero(decrement, "decrement");
+        int oldHitpoints = hitpoints;
+        hitpoints = (hitpoints - decrement <= 0) ? 0 : hitpoints - decrement;
+        return oldHitpoints - hitpoints;
+    }
+    
     public Game getGame() {
         assertConstructed();
         return game;
@@ -92,6 +110,14 @@ public class Player {
         return graveyard;
     }
     
+    public int getHitpoints() {
+        return hitpoints;
+    }
+    
+    public boolean isDead() {
+        return (hitpoints == 0);
+    }
+    
     public Player getOpponent() {
         assertConstructed();
         return game.getOpponentFor(this).orElseThrow(() -> new IllegalStateException("No opponent has been found"));
@@ -99,7 +125,7 @@ public class Player {
     
     @Override
     public String toString() {
-        return "Player(" + name + ")";
+        return "Player(" + name + ", " + hitpoints + ")";
     }
     
     private static enum Status {

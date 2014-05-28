@@ -28,6 +28,11 @@ public class PlayerConfigurationBuilderTest {
     }
     
     @Test
+    public void testHitpoints() {
+        assertNotNull(builder.hitpoints(100));
+    }
+    
+    @Test
     public void testTurnAction() {
         assertNotNull(builder.turnAction(new TurnActionImpl()));
     }
@@ -63,6 +68,7 @@ public class PlayerConfigurationBuilderTest {
         List<Card> cards = new ArrayList<>();
         cards.add(new MonsterCard("Test", 5, 5, MonsterModus.HEALING));
         PlayerConfiguration playerConfiguration = new PlayerConfigurationBuilder()
+                .hitpoints(100)
                 .turnAction(turnAction)
                 .handCapacity(5)
                 .fieldMonsterCapacity(7)
@@ -75,8 +81,19 @@ public class PlayerConfigurationBuilderTest {
     }
     
     @Test(expected = IllegalStateException.class)
+    public void testBuildHitpointsMissing() {
+        new PlayerConfigurationBuilder()
+                .turnAction(new TurnActionImpl())
+                .handCapacity(5)
+                .fieldMonsterCapacity(5)
+                .deckCards(Collections.emptyList())
+                .build();
+    }
+    
+    @Test(expected = IllegalStateException.class)
     public void testBuildTurnActionMissing() {
         new PlayerConfigurationBuilder()
+                .hitpoints(100)
                 .handCapacity(5)
                 .fieldMonsterCapacity(5)
                 .deckCards(Collections.emptyList())
@@ -86,6 +103,7 @@ public class PlayerConfigurationBuilderTest {
     @Test(expected = IllegalStateException.class)
     public void testBuildHandCapacityMissing() {
         new PlayerConfigurationBuilder()
+                .hitpoints(100)
                 .turnAction(new TurnActionImpl())
                 .fieldMonsterCapacity(5)
                 .deckCards(Collections.emptyList())
@@ -95,6 +113,7 @@ public class PlayerConfigurationBuilderTest {
     @Test(expected = IllegalStateException.class)
     public void testBuildFieldMonsterCapacityMissing() {
         new PlayerConfigurationBuilder()
+                .hitpoints(100)
                 .turnAction(new TurnActionImpl())
                 .handCapacity(5)
                 .deckCards(Collections.emptyList())
@@ -104,6 +123,7 @@ public class PlayerConfigurationBuilderTest {
     @Test(expected = IllegalStateException.class)
     public void testBuildDeckCardsMissing() {
         new PlayerConfigurationBuilder()
+                .hitpoints(100)
                 .turnAction(new TurnActionImpl())
                 .handCapacity(5)
                 .fieldMonsterCapacity(5)

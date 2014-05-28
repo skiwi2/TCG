@@ -11,10 +11,16 @@ import java.util.OptionalInt;
  * @author Frank van Heeswijk
  */
 public class PlayerConfigurationBuilder {
+    private OptionalInt hitpoints = OptionalInt.empty();
     private Optional<TurnAction> turnAction = Optional.empty();
     private OptionalInt handCapacity = OptionalInt.empty();
     private OptionalInt fieldMonsterCapacity = OptionalInt.empty();
     private Optional<Collection<Card>> deckCards = Optional.empty();
+    
+    public PlayerConfigurationBuilder hitpoints(final int hitpoints) {
+        this.hitpoints = OptionalInt.of(hitpoints);
+        return this;
+    }
     
     public PlayerConfigurationBuilder turnAction(final TurnAction turnAction) {
         this.turnAction = Optional.of(turnAction);
@@ -37,9 +43,9 @@ public class PlayerConfigurationBuilder {
     }
     
     public PlayerConfiguration build() {
-        if (!turnAction.isPresent() || !handCapacity.isPresent() || !fieldMonsterCapacity.isPresent() || !deckCards.isPresent()) {
-            throw new IllegalStateException("The fields turnAction, handCapacity, fieldMonsterCapacity and deckCards are required, but not all are present.");
+        if (!hitpoints.isPresent() || !turnAction.isPresent() || !handCapacity.isPresent() || !fieldMonsterCapacity.isPresent() || !deckCards.isPresent()) {
+            throw new IllegalStateException("The fields hitpoints, turnAction, handCapacity, fieldMonsterCapacity and deckCards are required, but not all are present.");
         }
-        return new PlayerConfiguration(turnAction.get(), handCapacity.getAsInt(), fieldMonsterCapacity.getAsInt(), deckCards.get());
+        return new PlayerConfiguration(hitpoints.getAsInt(), turnAction.get(), handCapacity.getAsInt(), fieldMonsterCapacity.getAsInt(), deckCards.get());
     }
 }
