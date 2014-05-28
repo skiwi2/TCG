@@ -34,7 +34,7 @@ public class Game {
     
     public void play() {
         assertConstructed();
-        while (true) {
+        while (!self.isDead() && !opponent.isDead()) {
             self.playTurn();
             opponent.playTurn();
         }

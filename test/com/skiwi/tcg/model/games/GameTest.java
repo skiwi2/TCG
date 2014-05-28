@@ -6,10 +6,9 @@ import com.skiwi.tcg.model.objects.MonsterModus;
 import com.skiwi.tcg.model.players.Player;
 import com.skiwi.tcg.model.players.PlayerConfiguration;
 import com.skiwi.tcg.model.players.PlayerConfigurationBuilder;
-import com.skiwi.tcg.model.players.TurnAction;
 import java.util.Arrays;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -21,12 +20,25 @@ public class GameTest {
         assertTrue(true);
     }
     
+    private PlayerConfigurationBuilder playerConfigurationBuilder;
+    
     private final PlayerConfiguration playerConfiguration = new PlayerConfigurationBuilder()
-            .turnAction(new TurnActionImpl())
+            .hitpoints(100)
+            .turnAction(player -> player.decreaseHitpoints(10))
             .handCapacity(5)
             .fieldMonsterCapacity(5)
             .deckCards(Arrays.asList(new MonsterCard("Test", 5, 5, MonsterModus.HEALING)))
             .build();
+    
+    @Before
+    public void before() {
+        playerConfigurationBuilder = new PlayerConfigurationBuilder()
+            .hitpoints(100)
+            .turnAction(player -> player.decreaseHitpoints(10))
+            .handCapacity(5)
+            .fieldMonsterCapacity(5)
+            .deckCards(Arrays.asList(new MonsterCard("Test", 5, 5, MonsterModus.HEALING)));
+    }
     
     @Test
     public void testSetSelf() {
@@ -84,12 +96,19 @@ public class GameTest {
         game.setOpponent(player);
     }
     
-    @Ignore
     @Test
     public void testPlay() {
         Game game = new Game();
         game.setSelf(Player.createFromConfiguration(playerConfiguration, "Self"));
         game.setOpponent(Player.createFromConfiguration(playerConfiguration, "Opponent"));
+        game.play();
+    }
+    
+    @Test
+    public void testPlayOpponentDiesFirst() {
+        Game game = new Game();
+        game.setSelf(Player.createFromConfiguration(playerConfiguration, "Self"));
+        game.setOpponent(Player.createFromConfiguration(playerConfigurationBuilder.turnAction(player -> player.decreaseHitpoints(15)).build(), "Opponent"));
         game.play();
     }
     
@@ -166,10 +185,5 @@ public class GameTest {
     public void testGetPlayersNotConstructed() {
         Game game = new Game();
         game.getPlayers();
-    }
-    
-    private static class TurnActionImpl implements TurnAction {
-        @Override
-        public void performTurn(final Player player) { }
     }
 }
