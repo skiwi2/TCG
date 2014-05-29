@@ -4,9 +4,9 @@ package com.skiwi.tcg.model.players.playeractions;
 import com.skiwi.tcg.model.cards.MonsterCard;
 import com.skiwi.tcg.model.objects.Field;
 import com.skiwi.tcg.model.objects.Hand;
+import com.skiwi.tcg.model.players.AbstractPlayerAction;
 import com.skiwi.tcg.model.players.Player;
 import com.skiwi.tcg.model.players.PlayerAction;
-import com.skiwi.tcg.model.players.PlayerActionNotAllowedException;
 import com.skiwi.tcg.utils.Arguments;
 import java.util.Objects;
 
@@ -14,7 +14,7 @@ import java.util.Objects;
  *
  * @author Frank van Heeswijk
  */
-public class PutMonsterOnFieldAction implements PlayerAction {
+public class PutMonsterOnFieldAction extends AbstractPlayerAction implements PlayerAction {
     private final int handCardIndex;
     private final int fieldMonsterIndex;
 
@@ -44,11 +44,8 @@ public class PutMonsterOnFieldAction implements PlayerAction {
     }
 
     @Override
-    public void performAction(final Player player) {
+    public void internalPerformAction(final Player player) {
         Objects.requireNonNull(player);
-        if (!isActionAllowed(player)) {
-            throw new PlayerActionNotAllowedException();
-        }
         Hand hand = player.getHand();
         Field field = player.getField();
         field.setMonster(fieldMonsterIndex, (MonsterCard)hand.play(handCardIndex));

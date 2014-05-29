@@ -5,9 +5,9 @@ import com.skiwi.tcg.model.cards.Card;
 import com.skiwi.tcg.model.objects.Deck;
 import com.skiwi.tcg.model.objects.Graveyard;
 import com.skiwi.tcg.model.objects.Hand;
+import com.skiwi.tcg.model.players.AbstractPlayerAction;
 import com.skiwi.tcg.model.players.Player;
 import com.skiwi.tcg.model.players.PlayerAction;
-import com.skiwi.tcg.model.players.PlayerActionNotAllowedException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -15,7 +15,7 @@ import java.util.Optional;
  *
  * @author Frank van Heeswijk
  */
-public class DrawCardAction implements PlayerAction {
+public class DrawCardAction extends AbstractPlayerAction implements PlayerAction {
     @Override
     public boolean isActionAllowed(final Player player) {
         Objects.requireNonNull(player);
@@ -32,11 +32,8 @@ public class DrawCardAction implements PlayerAction {
     }
     
     @Override
-    public void performAction(final Player player) {
+    public void internalPerformAction(final Player player) {
         Objects.requireNonNull(player);
-        if (!isActionAllowed(player)){
-            throw new PlayerActionNotAllowedException();
-        }
         Deck deck = player.getDeck();
         Hand hand = player.getHand();
         Graveyard graveyard = player.getGraveyard();
