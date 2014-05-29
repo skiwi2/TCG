@@ -44,7 +44,7 @@ public class PutMonsterOnFieldAction extends AbstractPlayerAction implements Pla
     }
 
     @Override
-    public void internalPerformAction(final Player player) {
+    protected void internalPerformAction(final Player player) {
         Objects.requireNonNull(player);
         Hand hand = player.getHand();
         Field field = player.getField();

@@ -32,7 +32,7 @@ public class DrawCardAction extends AbstractPlayerAction implements PlayerAction
     }
     
     @Override
-    public void internalPerformAction(final Player player) {
+    protected void internalPerformAction(final Player player) {
         Objects.requireNonNull(player);
         Deck deck = player.getDeck();
         Hand hand = player.getHand();
