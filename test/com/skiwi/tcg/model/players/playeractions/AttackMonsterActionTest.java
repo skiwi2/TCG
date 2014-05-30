@@ -4,6 +4,7 @@ package com.skiwi.tcg.model.players.playeractions;
 import com.skiwi.tcg.model.cards.MonsterCard;
 import com.skiwi.tcg.model.objects.MonsterModus;
 import com.skiwi.tcg.model.players.Player;
+import com.skiwi.tcg.model.players.PlayerAction;
 import com.skiwi.tcg.model.players.PlayerActionAbstractTest;
 import com.skiwi.tcg.model.players.PlayerActionNotAllowedException;
 import com.skiwi.tcg.model.players.PlayerConfiguration;
@@ -33,8 +34,9 @@ public class AttackMonsterActionTest extends PlayerActionAbstractTest {
             .deckCards(Arrays.asList(new MonsterCard("Random", 5, 5, MonsterModus.HEALING)))
             .build();
     
-    public AttackMonsterActionTest() {
-        super(() -> new AttackMonsterAction(0, 0, Player.createFromConfiguration(PLAYER_CONFIGURATION, "Opponent")));
+    @Override
+    protected PlayerAction supplyPlayerAction() {
+        return new AttackMonsterAction(0, 0, Player.createFromConfiguration(PLAYER_CONFIGURATION, "Opponent"));
     }
     
     @Before

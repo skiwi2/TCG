@@ -9,6 +9,7 @@ import com.skiwi.tcg.model.objects.Graveyard;
 import com.skiwi.tcg.model.objects.Hand;
 import com.skiwi.tcg.model.objects.MonsterModus;
 import com.skiwi.tcg.model.players.Player;
+import com.skiwi.tcg.model.players.PlayerAction;
 import com.skiwi.tcg.model.players.PlayerActionAbstractTest;
 import com.skiwi.tcg.model.players.PlayerActionNotAllowedException;
 import com.skiwi.tcg.model.players.PlayerConfiguration;
@@ -37,8 +38,9 @@ public class FuseMonsterActionTest extends PlayerActionAbstractTest {
             .deckCards(Arrays.asList(new MonsterCard("Random", 5, 5, MonsterModus.HEALING)))
             .build();
     
-    public FuseMonsterActionTest() {
-        super(() -> new FuseMonsterAction(0, 0, 1));
+    @Override
+    protected PlayerAction supplyPlayerAction() {
+        return new FuseMonsterAction(0, 0, 1);
     }
     
     @Before
