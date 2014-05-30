@@ -14,6 +14,8 @@ public class Game {
     private Player self;
     private Player opponent;
     
+    private Optional<Player> activePlayer = Optional.empty();
+    
     public void setSelf(final Player self) {
         Objects.requireNonNull(self);
         if (getPlayerStream().filter(x -> x.equals(self)).count() != 0) {
@@ -35,9 +37,16 @@ public class Game {
     public void play() {
         assertConstructed();
         while (!self.isDead() && !opponent.isDead()) {
-            self.playTurn();
-            opponent.playTurn();
+            playTurn(self);
+            playTurn(opponent);
         }
+        activePlayer = Optional.empty();
+    }
+    
+    private void playTurn(final Player player) {
+        Objects.requireNonNull(player, "player");
+        activePlayer = Optional.of(player);
+        player.playTurn();
     }
     
     public Optional<Player> getOpponentFor(final Player player) {
@@ -53,6 +62,11 @@ public class Game {
     public Stream<Player> getPlayers() {
         assertConstructed();
         return getPlayerStream();
+    }
+    
+    public Optional<Player> getActivePlayer() {
+        assertConstructed();
+        return activePlayer;
     }
     
     private void assertConstructed() {

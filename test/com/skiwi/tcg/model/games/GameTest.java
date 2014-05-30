@@ -7,6 +7,7 @@ import com.skiwi.tcg.model.players.Player;
 import com.skiwi.tcg.model.players.PlayerConfiguration;
 import com.skiwi.tcg.model.players.PlayerConfigurationBuilder;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -185,5 +186,43 @@ public class GameTest {
     public void testGetPlayersNotConstructed() {
         Game game = new Game();
         game.getPlayers();
+    }
+    
+    @Test
+    public void testGetActivePlayer() {
+        Game game = new Game();
+        
+        AtomicReference<Player> selfReference = new AtomicReference<>();
+        Player self = Player.createFromConfiguration(playerConfigurationBuilder
+                .turnAction(player -> {
+                    player.decreaseHitpoints(10);
+                    assertTrue(game.getActivePlayer().isPresent());
+                    assertEquals(selfReference.get(), game.getActivePlayer().get());
+                })
+                .build(), "Self");
+        selfReference.set(self);
+        
+        AtomicReference<Player> opponentReference = new AtomicReference<>();
+        Player opponent = Player.createFromConfiguration(playerConfigurationBuilder
+                .turnAction(player -> {
+                    player.decreaseHitpoints(10);
+                    assertTrue(game.getActivePlayer().isPresent());
+                    assertEquals(opponentReference.get(), game.getActivePlayer().get());
+                })
+                .build(), "Opponent");
+        opponentReference.set(opponent);
+        
+        game.setSelf(self);
+        game.setOpponent(opponent);
+        
+        assertFalse(game.getActivePlayer().isPresent());
+        game.play();
+        assertFalse(game.getActivePlayer().isPresent());
+    }
+    
+    @Test(expected = IllegalStateException.class)
+    public void testGetActivePlayerNotConstructed() {
+        Game game = new Game();
+        game.getActivePlayer();
     }
 }
