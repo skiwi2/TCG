@@ -9,13 +9,13 @@ import java.util.Objects;
  * @author Frank van Heeswijk
  */
 public abstract class HandEvent {
-    protected final Hand hand;
+    private final Hand hand;
     
     public HandEvent(final Hand hand) {
         this.hand = Objects.requireNonNull(hand);
     }
     
-    public Hand getHand() {
+    final public Hand getHand() {
         return hand;
     }
 }
