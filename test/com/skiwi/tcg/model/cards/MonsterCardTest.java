@@ -181,6 +181,13 @@ public class MonsterCardTest {
         monsterCard.fuseWith(fusedMonsterCard, null);
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void testFuseWithSelf() {
+        MonsterCard monsterCard = new MonsterCard("Alpha", 10, 10, MonsterModus.HEALING);
+        FusionCard fusionCard = new FusionCard("Fuser", 20, FusionStat.ATTACK);
+        monsterCard.fuseWith(monsterCard, fusionCard);
+    }
+    
     @Test
     public void testAttackSurvives() {
         MonsterCard monsterCard = new MonsterCard("Alpha", 10, 10, MonsterModus.HEALING);
