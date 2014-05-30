@@ -11,6 +11,7 @@ import com.skiwi.tcg.model.objects.Graveyard;
 import com.skiwi.tcg.model.objects.Hand;
 import com.skiwi.tcg.model.objects.MonsterModus;
 import com.skiwi.tcg.model.players.Player;
+import com.skiwi.tcg.model.players.PlayerActionAbstractTest;
 import com.skiwi.tcg.model.players.PlayerActionNotAllowedException;
 import com.skiwi.tcg.model.players.TurnAction;
 import java.util.Collections;
@@ -21,9 +22,13 @@ import org.junit.Test;
  *
  * @author Frank van Heeswijk
  */
-public class PutMonsterOnFieldActionTest {
+public class PutMonsterOnFieldActionTest extends PlayerActionAbstractTest {
     static {
         assertTrue(true);
+    }
+    
+    public PutMonsterOnFieldActionTest() {
+        super(() -> new PutMonsterOnFieldAction(0, 0));
     }
     
     @Test
@@ -68,18 +73,6 @@ public class PutMonsterOnFieldActionTest {
         
         assertEquals(card, field.getMonster(0));
         assertEquals(1, field.getMonsters().count());
-    }
-    
-    @Test(expected = NullPointerException.class)
-    public void testIsActionAllowedNullPlayer() {
-        PutMonsterOnFieldAction putMonsterOnFieldAction = new PutMonsterOnFieldAction(0, 0);
-        putMonsterOnFieldAction.isActionAllowed(null);
-    }
-    
-    @Test(expected = NullPointerException.class)
-    public void testPerformActionNullPlayer() {
-        PutMonsterOnFieldAction putMonsterOnFieldAction = new PutMonsterOnFieldAction(0, 0);
-        putMonsterOnFieldAction.performAction(null);
     }
     
     @Test

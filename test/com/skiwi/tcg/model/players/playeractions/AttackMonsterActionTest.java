@@ -4,6 +4,7 @@ package com.skiwi.tcg.model.players.playeractions;
 import com.skiwi.tcg.model.cards.MonsterCard;
 import com.skiwi.tcg.model.objects.MonsterModus;
 import com.skiwi.tcg.model.players.Player;
+import com.skiwi.tcg.model.players.PlayerActionAbstractTest;
 import com.skiwi.tcg.model.players.PlayerActionNotAllowedException;
 import com.skiwi.tcg.model.players.PlayerConfiguration;
 import com.skiwi.tcg.model.players.PlayerConfigurationBuilder;
@@ -16,7 +17,7 @@ import org.junit.Test;
  *
  * @author Frank van Heeswijk
  */
-public class AttackMonsterActionTest {
+public class AttackMonsterActionTest extends PlayerActionAbstractTest {
     static {
         assertTrue(true);
     }
@@ -24,7 +25,7 @@ public class AttackMonsterActionTest {
     private Player self;
     private Player opponent;
     
-    private final PlayerConfiguration playerConfiguration = new PlayerConfigurationBuilder()
+    private final static PlayerConfiguration PLAYER_CONFIGURATION = new PlayerConfigurationBuilder()
             .hitpoints(100)
             .turnAction(p -> { })
             .handCapacity(5)
@@ -32,10 +33,14 @@ public class AttackMonsterActionTest {
             .deckCards(Arrays.asList(new MonsterCard("Random", 5, 5, MonsterModus.HEALING)))
             .build();
     
+    public AttackMonsterActionTest() {
+        super(() -> new AttackMonsterAction(0, 0, Player.createFromConfiguration(PLAYER_CONFIGURATION, "Opponent")));
+    }
+    
     @Before
     public void before() {
-        self = Player.createFromConfiguration(playerConfiguration, "Self");
-        opponent = Player.createFromConfiguration(playerConfiguration, "Opponent");
+        self = Player.createFromConfiguration(PLAYER_CONFIGURATION, "Self");
+        opponent = Player.createFromConfiguration(PLAYER_CONFIGURATION, "Opponent");
     }
     
     @Test
