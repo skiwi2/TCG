@@ -32,7 +32,7 @@ public class AbstractPlayerActionTest {
     @Test
     public void testPerformAction() {
         PlayerAction playerAction = new AbstractPlayerActionImpl();
-        Player player = new Player("Test", 100, p -> { }, new Hand(5), new Field(5), new Deck(Arrays.asList(new MonsterCard("Test", 5, 5, MonsterModus.HEALING))), new Graveyard());
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(Arrays.asList(new MonsterCard("Test", 5, 5, MonsterModus.HEALING))), new Graveyard());
         playerAction.performAction(player);
         assertEquals(1, counter.get());
     }
@@ -51,12 +51,11 @@ public class AbstractPlayerActionTest {
                 return false;
             }
         };
-        Player player = new Player("Test", 100, p -> { }, new Hand(5), new Field(5), new Deck(Arrays.asList(new MonsterCard("Test", 5, 5, MonsterModus.HEALING))), new Graveyard());
+        Player player = new Player("Test", 100, new TurnActionImpl(), new Hand(5), new Field(5), new Deck(Arrays.asList(new MonsterCard("Test", 5, 5, MonsterModus.HEALING))), new Graveyard());
         playerAction.performAction(player);
     }
     
     private class AbstractPlayerActionImpl extends AbstractPlayerAction {
-
         @Override
         public boolean isActionAllowed(final Player player) {
             return true;
@@ -66,5 +65,10 @@ public class AbstractPlayerActionTest {
         protected void internalPerformAction(final Player player) {
             counter.incrementAndGet();
         }
+    }
+    
+    private static class TurnActionImpl implements TurnAction {
+        @Override
+        public void performTurn(Player player) { }
     }
 }
