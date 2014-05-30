@@ -73,6 +73,9 @@ public final class MonsterCard implements Card {
     public MonsterCard fuseWith(final MonsterCard fuserMonsterCard, final FusionCard fusionCard) {
         Objects.requireNonNull(fuserMonsterCard);
         Objects.requireNonNull(fusionCard);
+        if (fuserMonsterCard.equals(this)) {
+            throw new IllegalArgumentException("it is not possible to fuse with yourself");
+        }
         return fusionCard.getFusionStat().createBuilder(this, fuserMonsterCard, fusionCard)
                 .name(getName() + " " + fuserMonsterCard.getName())
                 .build();
