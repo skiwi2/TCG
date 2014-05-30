@@ -1,8 +1,6 @@
 
 package com.skiwi.tcg.model.players;
 
-import java.util.Objects;
-import java.util.function.Supplier;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -18,21 +16,13 @@ public abstract class PlayerActionAbstractTest {
         assertTrue(true);
     }
 
-    private final Supplier<PlayerAction> playerActionSupplier;
-
     private PlayerAction playerAction;
-
-    public PlayerActionAbstractTest() {
-        this.playerActionSupplier = null;
-    }
-
-    protected PlayerActionAbstractTest(final Supplier<PlayerAction> playerActionSupplier) {
-        this.playerActionSupplier = Objects.requireNonNull(playerActionSupplier, "playerActionSupplier");
-    }
+    
+    protected abstract PlayerAction supplyPlayerAction();
 
     @Before
     final public void beforePlayerActionAbstractTest() {
-        playerAction = playerActionSupplier.get();
+        playerAction = supplyPlayerAction();
     }
 
     @Test(expected = NullPointerException.class)

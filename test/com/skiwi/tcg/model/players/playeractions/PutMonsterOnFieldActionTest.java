@@ -11,6 +11,7 @@ import com.skiwi.tcg.model.objects.Graveyard;
 import com.skiwi.tcg.model.objects.Hand;
 import com.skiwi.tcg.model.objects.MonsterModus;
 import com.skiwi.tcg.model.players.Player;
+import com.skiwi.tcg.model.players.PlayerAction;
 import com.skiwi.tcg.model.players.PlayerActionAbstractTest;
 import com.skiwi.tcg.model.players.PlayerActionNotAllowedException;
 import com.skiwi.tcg.model.players.TurnAction;
@@ -27,8 +28,9 @@ public class PutMonsterOnFieldActionTest extends PlayerActionAbstractTest {
         assertTrue(true);
     }
     
-    public PutMonsterOnFieldActionTest() {
-        super(() -> new PutMonsterOnFieldAction(0, 0));
+    @Override
+    protected PlayerAction supplyPlayerAction() {
+        return new PutMonsterOnFieldAction(0, 0);
     }
     
     @Test
