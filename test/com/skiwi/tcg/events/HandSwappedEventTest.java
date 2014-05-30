@@ -35,13 +35,6 @@ public class HandSwappedEventTest {
     }
     
     @Test
-    public void testGetHand() {
-        Hand hand = new Hand(5);
-        HandSwappedEvent handSwappedEvent = new HandSwappedEvent(hand, 1, 2);
-        assertEquals(hand, handSwappedEvent.getHand());
-    }
-    
-    @Test
     public void testGetIndexOne() {
         Hand hand = new Hand(5);
         HandSwappedEvent handSwappedEvent = new HandSwappedEvent(hand, 1, 2);

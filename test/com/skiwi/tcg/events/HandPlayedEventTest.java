@@ -38,14 +38,6 @@ public class HandPlayedEventTest {
     }
     
     @Test
-    public void testGetHand() {
-        Hand hand = new Hand(5);
-        Card card = new MonsterCard("Test", 5, 5, MonsterModus.HEALING);
-        HandPlayedEvent handPlayedEvent = new HandPlayedEvent(hand, 1, card);
-        assertEquals(hand, handPlayedEvent.getHand());
-    }
-    
-    @Test
     public void testGetIndex() {
         Hand hand = new Hand(5);
         Card card = new MonsterCard("Test", 5, 5, MonsterModus.HEALING);

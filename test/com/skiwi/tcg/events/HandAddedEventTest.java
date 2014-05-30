@@ -33,14 +33,6 @@ public class HandAddedEventTest {
     }
     
     @Test
-    public void testGetHand() {
-        Hand hand = new Hand(5);
-        Card card = new MonsterCard("Test", 5, 5, MonsterModus.HEALING);
-        HandAddedEvent handAddedEvent = new HandAddedEvent(hand, card);
-        assertEquals(hand, handAddedEvent.getHand());
-    }
-    
-    @Test
     public void testGetCard() {
         Hand hand = new Hand(5);
         Card card = new MonsterCard("Test", 5, 5, MonsterModus.HEALING);
