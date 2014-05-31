@@ -67,7 +67,7 @@ public final class MonsterCard implements Card {
     }
     
     public boolean isDead() {
-        return (hitpoints == 0);
+        return (hitpoints <= 0);
     }
     
     public MonsterCard fuseWith(final MonsterCard fuserMonsterCard, final FusionCard fusionCard) {
