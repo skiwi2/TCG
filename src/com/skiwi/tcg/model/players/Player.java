@@ -115,7 +115,7 @@ public class Player {
     }
     
     public boolean isDead() {
-        return (hitpoints == 0);
+        return (hitpoints <= 0);
     }
     
     public Player getOpponent() {
