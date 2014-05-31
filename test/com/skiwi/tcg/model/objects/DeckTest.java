@@ -13,9 +13,14 @@ import org.junit.Test;
  *
  * @author Frank van Heeswijk
  */
-public class DeckTest {
+public class DeckTest extends PileAbstractTest {
     static {
         assertTrue(true);
+    }
+    
+    @Override
+    protected Pile supplyPile() {
+        return new Deck();
     }
     
     @Test
@@ -24,17 +29,22 @@ public class DeckTest {
     }
     
     @Test
-    public void testDeckConstructor_collection() {
+    public void testDeckConstructorWithCollection() {
         new Deck(createCollection());
     }
     
+    @Test
+    public void testDeckConstructorWithRestrictedCollection() {
+        new Deck(createRestrictedCollection());
+    }
+    
     @Test(expected = NullPointerException.class)
-    public void testDeckConstructor_collectionNPE() {
+    public void testDeckConstructorNullCollection() {
         new Deck(null);
     }
 
     @Test
-    public void testTake() {
+    public void testDeckTake() {
         Deck deck = new Deck();
         Card card = createCard();
         Card card2 = createCard2();
@@ -47,13 +57,13 @@ public class DeckTest {
     }
     
     @Test
-    public void testTakeEmpty() {
+    public void testDeckTakeEmpty() {
         Deck deck = new Deck();
         assertFalse(deck.take().isPresent());
     }
     
     @Test
-    public void testTakeFirstSimilarToTake() {
+    public void testDeckTakeFirstSimilarToTake() {
         Card cardTakeFirst;
         Card cardTake;
         
@@ -100,16 +110,23 @@ public class DeckTest {
         assertEquals(Deck.class.getSimpleName() + "(2)", deck.toString());
     }
     
-    private Card createCard() {
+    private MonsterCard createCard() {
         return new MonsterCard("Test", 10, 100, MonsterModus.OFFENSIVE);
     }
 
-    private Card createCard2() {
+    private MonsterCard createCard2() {
         return new MonsterCard("Test2", 15, 150, MonsterModus.HEALING);
     }
     
     private Collection<Card> createCollection() {
         Collection<Card> collection = new ArrayList<>();
+        collection.add(createCard());
+        collection.add(createCard2());
+        return collection;
+    }
+    
+    private Collection<MonsterCard> createRestrictedCollection() {
+        Collection<MonsterCard> collection = new ArrayList<>();
         collection.add(createCard());
         collection.add(createCard2());
         return collection;

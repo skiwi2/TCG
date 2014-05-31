@@ -5,7 +5,6 @@ import com.skiwi.tcg.model.cards.Card;
 import com.skiwi.tcg.model.cards.MonsterCard;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -13,9 +12,14 @@ import org.junit.Test;
  *
  * @author Frank van Heeswijk
  */
-public class GraveyardTest {
+public class GraveyardTest extends PileAbstractTest {
     static {
         assertTrue(true);
+    }
+    
+    @Override
+    protected Pile supplyPile() {
+        return new Graveyard();
     }
     
     @Test
@@ -24,10 +28,24 @@ public class GraveyardTest {
     }
     
     @Test
-    public void testConstructor_collection() {
+    public void testConstructorWithCollection() {
         Card card = createCard();
         Card card2 = createCard2();
-        List<Card> list = new ArrayList<>();
+        Collection<Card> list = new ArrayList<>();
+        list.add(card);
+        list.add(card2);
+        assertNotSame(card, card2);
+        Graveyard graveyard = new Graveyard(list);
+        assertTrue(graveyard.contains(card));
+        assertTrue(graveyard.contains(card2));
+        assertEquals(2, graveyard.size());
+    }
+    
+    @Test
+    public void testConstructorWithRestrictedCollection() {
+        MonsterCard card = createCard();
+        MonsterCard card2 = createCard2();
+        Collection<MonsterCard> list = new ArrayList<>();
         list.add(card);
         list.add(card2);
         assertNotSame(card, card2);
@@ -38,7 +56,7 @@ public class GraveyardTest {
     }
     
     @Test(expected = NullPointerException.class)
-    public void testConstructor_collectionNPE() {
+    public void testConstructorNullCollection() {
         new Graveyard(null);
     }
     
@@ -52,12 +70,30 @@ public class GraveyardTest {
         graveyard.add(card2);
         assertEquals(2, graveyard.size());
         
-        List<Card> list = new ArrayList<>();
-        graveyard.transferAll(list);
+        Collection<Card> collection = new ArrayList<>();
+        graveyard.transferAll(collection);
         assertEquals(0, graveyard.size());
-        assertEquals(2, list.size());
-        assertTrue(list.contains(card));
-        assertTrue(list.contains(card2));
+        assertEquals(2, collection.size());
+        assertTrue(collection.contains(card));
+        assertTrue(collection.contains(card2));
+    }
+    
+    @Test
+    public void testTransferAllWithSuperCollection() {
+        Card card = createCard();
+        Card card2 = createCard2();
+        assertNotSame(card, card2);
+        Graveyard graveyard = new Graveyard();
+        graveyard.add(card);
+        graveyard.add(card2);
+        assertEquals(2, graveyard.size());
+        
+        Collection<Object> collection = new ArrayList<>();
+        graveyard.transferAll(collection);
+        assertEquals(0, graveyard.size());
+        assertEquals(2, collection.size());
+        assertTrue(collection.contains(card));
+        assertTrue(collection.contains(card2));
     }
     
     @Test(expected = NullPointerException.class)
@@ -72,11 +108,11 @@ public class GraveyardTest {
         assertEquals(Graveyard.class.getSimpleName() + "(2)", graveyard.toString());
     }
     
-    private Card createCard() {
+    private MonsterCard createCard() {
         return new MonsterCard("Test", 10, 100, MonsterModus.OFFENSIVE);
     }
 
-    private Card createCard2() {
+    private MonsterCard createCard2() {
         return new MonsterCard("Test2", 15, 150, MonsterModus.HEALING);
     }
     
