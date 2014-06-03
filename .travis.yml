@@ -9,7 +9,7 @@ branches:
         
 before_install:
     - "export DISPLAY=:99.0"
-    - "/sbin/start-stop-daemon --start --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- +extension RANDR :99 -ac"
+    - "sh -e /etc/init.d/xvfb start"
         
 install:
     - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes jq; fi
