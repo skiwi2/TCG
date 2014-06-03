@@ -9,7 +9,7 @@ branches:
         
 before_install:
     - "export DISPLAY=:99.0"
-    - "sh -e /etc/init.d/xvfb start"
+    - "sh -e /etc/init.d/xvfb +extension RANDR start"
         
 install:
     - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes jq; fi
