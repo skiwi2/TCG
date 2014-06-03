@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import java.net.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="borderPane" prefHeight="300" prefWidth="1200" fx:controller="com.skiwi.gui.simple.console.ConsoleController">
+    <stylesheets>
+        <URL value="@console.css" />
+    </stylesheets>
+    <center>
+        <TextArea fx:id="textArea" editable="false" wrapText="true" /> 
+    </center>
+    <bottom>
+        <TextField fx:id="textField" onKeyReleased="#handleTextFieldOnKeyReleased" />
+    </bottom>
+</BorderPane>
