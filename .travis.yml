@@ -8,6 +8,8 @@ branches:
         - latest-master
         
 before_install:
+    - sudo apt-get update -qq
+    - sudo apt-get install oracle-java8-installer
     - "export DISPLAY=:99.0"
     - "sh -e /etc/init.d/xvfb start"
         
