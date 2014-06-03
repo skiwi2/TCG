@@ -8,6 +8,7 @@ branches:
         - latest-master
         
 before_install:
+    - "export DISPLAY=:99.0"
     - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb +extension RANDR -- :99 -ac"
         
 install:
