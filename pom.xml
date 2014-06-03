@@ -17,6 +17,11 @@
         <testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
         <sourceDirectory>${project.basedir}/src</sourceDirectory>
         <testSourceDirectory>${project.basedir}/test</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>
