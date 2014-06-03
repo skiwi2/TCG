@@ -8,8 +8,7 @@ branches:
         - latest-master
         
 before_install:
-    - "export DISPLAY=:99.0"
-    - "sh -e /etc/init.d/xvfb +extension RANDR start"
+    - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb +extension RANDR -- :99 -ac"
         
 install:
     - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes jq; fi
