@@ -41,17 +41,36 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
   IDDI=`cat json.txt | jq '.id'`
   echo -e "Release identifier ${IDDI}"
 
-  # create folders needed for jfx:jar and give permissions
-  mkdir /home/travis/build/${GH_USER}/${GH_REPO}/target/jfx
-  mkdir /home/travis/build/${GH_USER}/${GH_REPO}/target/jfx/app
-  mkdir /home/travis/build/${GH_USER}/${GH_REPO}/target/jfx/app/lib
-  chmod -R 777 /home/travis/build/${GH_USER}/${GH_REPO}/target/jfx
-
   # build JavaFX JAR file
   mvn clean jfx:jar
 
   # print all files in target directory
+  echo -e "\nPrinting files in target directory:"
   for filename in /home/travis/build/${GH_USER}/${GH_REPO}/target/*
+  do
+    if [ -f "$filename" ]; then
+      actualsize=$(wc -c "$filename" | cut -f 1 -d ' ')
+      echo "${filename} (${actualsize} bytes)"
+    else
+      echo "${filename}"
+    fi
+  done;
+
+  # print all files in target/jfx directory
+  echo -e "\nPrinting files in target/jfx directory:"
+  for filename in /home/travis/build/${GH_USER}/${GH_REPO}/target/jfx/*
+  do
+    if [ -f "$filename" ]; then
+      actualsize=$(wc -c "$filename" | cut -f 1 -d ' ')
+      echo "${filename} (${actualsize} bytes)"
+    else
+      echo "${filename}"
+    fi
+  done;
+
+  # print all files in target/jfx/app directory
+  echo -e "\nPrinting files in target/jfx/app directory:"
+  for filename in /home/travis/build/${GH_USER}/${GH_REPO}/target/jfx/app/*
   do
     if [ -f "$filename" ]; then
       actualsize=$(wc -c "$filename" | cut -f 1 -d ' ')
