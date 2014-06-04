@@ -3,6 +3,7 @@ package com.skiwi.gui.simple.console;
 
 import com.skiwi.eventbus.EventBus;
 import com.skiwi.eventbus.SimpleEventBus;
+import com.skiwi.gui.GUIHelper;
 import com.skiwi.gui.simple.Data;
 import com.skiwi.tcg.model.games.Game;
 import com.skiwi.tcg.model.players.Player;
@@ -84,7 +85,7 @@ public class ConsoleController implements Initializable {
     }
     
     private void refreshAllStats(final Game game) {
-        textArea.clear();
+        clear();
         println("Active player: " + game.getActivePlayer().get().getName());
         println();
         game.getPlayers().forEach(this::showPlayerStats);
@@ -97,12 +98,16 @@ public class ConsoleController implements Initializable {
         println();
     }
     
+    private void clear() {
+        GUIHelper.runSafe(textArea::clear);
+    }
+    
     private void println() {
-        textArea.appendText(System.lineSeparator());
+        GUIHelper.runSafe(() -> textArea.appendText(System.lineSeparator()));
     }
     
     private void println(final String text) {
-        textArea.appendText(text + System.lineSeparator());
+        GUIHelper.runSafe(() -> textArea.appendText(text + System.lineSeparator()));
     }
     
     private class GameTurnAction implements TurnAction {
