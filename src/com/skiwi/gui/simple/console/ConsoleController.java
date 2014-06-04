@@ -3,7 +3,6 @@ package com.skiwi.gui.simple.console;
 
 import com.skiwi.eventbus.EventBus;
 import com.skiwi.eventbus.SimpleEventBus;
-import com.skiwi.gui.GUIHelper;
 import com.skiwi.gui.simple.Data;
 import com.skiwi.tcg.model.games.Game;
 import com.skiwi.tcg.model.players.Player;
@@ -99,15 +98,15 @@ public class ConsoleController implements Initializable {
     }
     
     private void clear() {
-        GUIHelper.runSafe(textArea::clear);
+        Platform.runLater(textArea::clear);
     }
     
     private void println() {
-        GUIHelper.runSafe(() -> textArea.appendText(System.lineSeparator()));
+        Platform.runLater(() -> textArea.appendText(System.lineSeparator()));
     }
     
     private void println(final String text) {
-        GUIHelper.runSafe(() -> textArea.appendText(text + System.lineSeparator()));
+        Platform.runLater(() -> textArea.appendText(text + System.lineSeparator()));
     }
     
     private class GameTurnAction implements TurnAction {
