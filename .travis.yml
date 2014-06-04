@@ -19,7 +19,7 @@ install:
 after_success:
     - chmod -R 777 ./upload_binaries.sh
     - ./upload_binaries.sh
-    - mvn clean cobertura:cobertura coveralls:cobertura
+    - mvn clean test jacoco:report coveralls:jacoco
     
 env:
     global:
