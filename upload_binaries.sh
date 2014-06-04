@@ -41,6 +41,12 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
   IDDI=`cat json.txt | jq '.id'`
   echo -e "Release identifier ${IDDI}"
 
+  # create folders needed for jfx:jar and give permissions
+  mkdir /home/travis/build/${GH_USER}/${GH_REPO}/target/jfx
+  mkdir /home/travis/build/${GH_USER}/${GH_REPO}/target/jfx/app
+  mkdir /home/travis/build/${GH_USER}/${GH_REPO}/target/jfx/app/lib
+  chmod -R 777 /home/travis/build/${GH_USER}/${GH_REPO}/target/jfx
+
   # build JavaFX JAR file
   mvn clean jfx:jar
 
@@ -59,7 +65,7 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
   curl -X POST -H "Authorization: token ${GH_TOKEN}" \
      -H "Accept: application/vnd.github.manifold-preview" \
      -H "Content-Type: application/zip" \
-     --data-binary @/home/travis/build/${GH_USER}/${GH_REPO}/target/TCG-1.0-SNAPSHOT.jar \
+     --data-binary @/home/travis/build/${GH_USER}/${GH_REPO}/target/jfx/app/TCG-1.0-SNAPSHOT-jfx.jar \
      "https://uploads.github.com/repos/${GH_USER}/${GH_REPO}/releases/${IDDI}/assets?name=tcg-master-${TRAVIS_BUILD_NUMBER}.jar"
 
   echo -e "Done uploading\n"
