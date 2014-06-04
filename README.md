@@ -6,3 +6,5 @@ A trading card game featuring a simple AI, initially designed for codereview.sta
 Known issues:
 - You cannot attack monsters, because you cannot change a card to offensive mode.
 - The game never ends.
+- Only the following parts of the GUI are updated automatically* as events happen: Hand.
+  * Manual update still happens when you end your turn.
