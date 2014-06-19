@@ -4,6 +4,11 @@
 /.jacocoverage
 /dist/
 /nbproject/
+/target/
 /build.xml
 screenshot*.png
-/target/
+
+### This stuff here is for the eclipse workspace
+.classpath
+.project
+.settings/
