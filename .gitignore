@@ -9,7 +9,6 @@
 screenshot*.png
 
 ### This stuff here is for the eclipse workspace
-/target/
 .classpath
 .project
 .settings/
