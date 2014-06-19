@@ -4,7 +4,7 @@
 /.jacocoverage
 /dist/
 /nbproject/
-/target
+/target/
 /build.xml
 screenshot*.png
 
