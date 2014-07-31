@@ -6,6 +6,8 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
   # define some variables
   GH_USER=skiwi2
   GH_REPO=TCG
+  BUILD_NAME=TCG
+  BUILD_VERSION=1.0-SNAPSHOT
 
   # get info about all releases
   echo -e "Getting info about previous releases"
@@ -84,7 +86,7 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
   curl -X POST -H "Authorization: token ${GH_TOKEN}" \
      -H "Accept: application/vnd.github.manifold-preview" \
      -H "Content-Type: application/zip" \
-     --data-binary @/home/travis/build/${GH_USER}/${GH_REPO}/target/jfx/app/TCG-1.0-SNAPSHOT-jfx.jar \
+     --data-binary @/home/travis/build/${GH_USER}/${GH_REPO}/target/jfx/app/${BUILD_NAME}-{$BUILD_VERSION}-jfx.jar \
      "https://uploads.github.com/repos/${GH_USER}/${GH_REPO}/releases/${IDDI}/assets?name=tcg-master-${TRAVIS_BUILD_NUMBER}.jar"
 
   echo -e "Done uploading\n"
