@@ -87,7 +87,7 @@ if [ "$TRAVIS_BRANCH" == "master" ]; then
      -H "Accept: application/vnd.github.manifold-preview" \
      -H "Content-Type: application/zip" \
      --data-binary @/home/travis/build/${GH_USER}/${GH_REPO}/target/jfx/app/${BUILD_NAME}-${BUILD_VERSION}-jfx.jar \
-     "https://uploads.github.com/repos/${GH_USER}/${GH_REPO}/releases/${IDDI}/assets?name=tcg-master-${TRAVIS_BUILD_NUMBER}.jar"
+     "https://uploads.github.com/repos/${GH_USER}/${GH_REPO}/releases/${IDDI}/assets?name=${BUILD_NAME}-master-${TRAVIS_BUILD_NUMBER}.jar"
 
   echo -e "Done uploading\n"
 
